@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:100,300,600"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link type="text/css" rel="stylesheet" href="styles.css" />
+
+    <title>Yahtzee</title>
+  </head>
+
+  <body>
+    <div class="rules">
+      <p>Full Yahtzee Rules? Click  <a href="http://www.yahtzee.org.uk/rules.html" target="_blank">HERE</a></p>
+     
+      <h3>How to Play: </h3>
+      <ul>
+        <li>Click "Roll" to roll dice</li>
+        <li>Click on a single die in order to hold it</li>
+        <li>Click on the name of the score you would like to count to end your turn</li>
+        <li>To scratch a score, click the 'Scratch' button then click the score you would like to scratch</li>
+      </ul>
+    </div>
+     
+        <section class="upper-score">
+          <div class="score-card">
+            <span class="score-name">Ones:</span>
+            <span id="score1" class="score-input"></span>
+          </div>
+          <div class="score-card">
+            <span class="score-name">Twos:</span>
+            <span id="score2" class="score-input"></span>
+          </div>
+          <div class="score-card">
+            <span class="score-name">Threes:</span>
+            <span id="score3" class="score-input"></span>
+          </div>
+          <div class="score-card">
+            <span class="score-name">Fours:</span>
+            <span id="score4" class="score-input"></span>
+          </div>
+          <div class="score-card">
+            <span class="score-name">Fives:</span>
+            <span id="score5" class="score-input"></span>
+          </div>
+          <div class="score-card">
+            <span class="score-name">Sixes:</span>
+            <span id="score6" class="score-input"></span>
+          </div>
+        </section>
+        <section class="lower-score">
+            <div class="score-card">
+              <span class="score-name">3 of a Kind:</span>
+              <span id="threekind" class="score-input"></span>
+            </div>
+            <div class="score-card">
+              <span class="score-name">4 of a Kind:</span>
+              <span id="fourkind" class="score-input"></span>
+            </div>
+            <div class="score-card">
+              <span class="score-name">Full House:</span>
+              <span id="fullhouse" class="score-input"></span>
+            </div>
+            <div class="score-card">
+              <span class="score-name">Small Straight:</span>
+              <span id="smallstraight" class="score-input"></span>
+            </div>
+            <div class="score-card">
+              <span class="score-name">Large Straight:</span>
+              <span id="largestraight" class="score-input"></span>
+            </div>
+            <div class="score-card">
+              <span class="score-name">Yahtzee:</span>
+              <span id="yahtzee" class="score-input"></span>
+            </div>
+            <div class="score-card">
+                <span class="score-name">Chance:</span>
+                <span id="chance" class="score-input"></span>
+              </div>
+          </section>
+          
+`
+        <section class="total-score">
+            <div class="total-score-card">
+                <span class="score-name">Upper Total:</span>
+                <span id="uppertotal" class="score-input"></span>
+              </div>
+              <div class="total-score-card">
+                <span class="score-name">Lower Total:</span>
+                <span id="lowertotal" class="score-input"></span>
+              </div>
+              <div class="total-score-card">
+                <span class="score-name">Grand Total:</span>
+                <span id="grandtotal" class="score-input"></span>
+              </div>
+            </section>
+      
+    <section class="button-container">
+      <p class="round-status">Roll #<span id="rolls-in-round">0</span> in this round</p>
+
+      <button class="btn-new">
+        New game
+      </button>
+      <button class="btn-roll">Roll dice</button>
+      
+      <button id="scratch">Scratch</button>
+    </section>
+
+      
+    </div>
+
+    <section class="roll-area">
+    <img src="./dice/dice-1.png" alt="Dice" class="dice" id="dice-1" />
+      <img src="./dice/dice-2.png" alt="Dice" class="dice" id="dice-2" />
+      <img src="./dice/dice-3.png" alt="Dice" class="dice" id="dice-3" />
+      <img src="./dice/dice-4.png" alt="Dice" class="dice" id="dice-4" />
+      <img src="./dice/dice-5.png" alt="Dice" class="dice" id="dice-5" />
+    </section>
+    <script type="module" src="app.js"></script>
+  </body>
+</html>
