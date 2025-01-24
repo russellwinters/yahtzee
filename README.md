@@ -1,16 +1,17 @@
 # yahtzee
 
-### Purpose: WHy did I make this app?
+### Purpose: ?
 
-I made this small extension after completing a short hackathon in which our goal was to build a chrome extension. We had two hours, so I made a simple landing page, but had made a different dice game a couple days prior. I enjoyed making both the extension and the other dice game, so decided to combine the two into an extension with the intent to pubish it. 
-
-After deciding to make the app itself, I wanted to challenge myself a little bit. I'm most comfortable in React, but felt that it would be simple enough for me to make a Yahtzee game in React, so instead I decided to make it as basic as possible. I've used Vanilla JS, plain CSS, and HTML for this extension. The real goal was to make the project challenging by limiting my available tools, which ended up being a lot of fun. 
+I had started this repo when I was furst entering the industry, hoping to sharpen my vanilla JS skills. At this point I'm thinking that it would actually be fun to use a yahtzee app as a testing ground when trying new frameworks, libraries and languages because it's a familiar problem that requires some level of forethought.
 
 ### Why Yahtzee?
 
-I made it a Yahtzee game because of all the regular Yahtzee I've been playing. With the boredom of being inside all day everyday, I've been playing Yahtzee at home and over zoom a lot. I felt as though Yahtzee would be a good game because I've been into it lately and it is also relatively complex - forcing me to work through all the complex algorithms for scores and conditions that may arrise during one game. 
+In deciding what to do, I'm finding what I look for is:
 
+- Something that I am familiar with
+- Something that requires basic use of a language or framework, but the ability to put pieces together in something larger than a singular file or couple of functions.
+- Something I can actually play around with after it's done
 
-### End Product: 
+### End Product:
 
-While I definitely think the end-product could look better, I thought that the purpose of this project wasn't to make the most amazing visuals. The purpose was to create an app using the most basic JS and CSS possible. In doing so I tested my current knowledge and was happy that I completed the project without having to use Google, Stack Overflow,or any number of sources in order to simplify the work I had to do. I had fun with it and hope that anyone that adds the extension would find it a good way to spend your indoor time!
+Hoping to use this repo as a testing ground. Dropped the initial app into the `/chrome-extension` directory, and am thinking of adding different apps in due time.
