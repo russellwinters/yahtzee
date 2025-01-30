@@ -126,8 +126,20 @@ impl Die {
     }
 
     pub fn roll(&mut self) {
+        if self.value.1 {
+            return;
+        }
+
         let val = self.rand_num();
         self.value = (val, self.value.1);
+    }
+
+    pub fn lock(&mut self) {
+        self.value = (self.value.0, true);
+    }
+
+    pub fn unlock(&mut self) {
+        self.value = (self.value.0, false);
     }
 }
 
