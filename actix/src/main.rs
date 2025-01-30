@@ -1,6 +1,5 @@
-use std::error::Error;
-
 use actix_web::{get, App, HttpResponse, HttpServer, Responder};
+use rand::Rng;
 
 #[get("/")]
 async fn hello() -> impl Responder {
@@ -15,7 +14,9 @@ async fn main() -> std::io::Result<()> {
         .await
 }
 
-type Dice = [u8; 5];
+const MAX_ROLLS: u8 = 3;
+const MAX_NUMBER: u8 = 6;
+const MIN_NUMBER: u8 = 1;
 
 struct Game {
     dice: Dice,
@@ -26,7 +27,7 @@ struct Game {
 impl Game {
     fn new() -> Self {
         Self {
-            dice: [0; 5],
+            dice: Dice::new(),
             rolls: 0,
             score: Scorecard::new(),
         }
@@ -68,7 +69,7 @@ impl Scorecard {
         }
     }
 
-    fn validate_all(&self) -> bool {
+    fn validate_board(&self) -> bool {
         self.ones.is_some()
             && self.twos.is_some()
             && self.threes.is_some()
@@ -84,8 +85,8 @@ impl Scorecard {
             && self.chance.is_some()
     }
 
-    pub fn tally(&self) -> Result<u16, String> {
-        if !self.validate_all() {
+    pub fn get_total(&self) -> Result<u16, String> {
+        if !self.validate_board() {
             return Err("Not all fields are filled out".to_string());
         }
         let mut total = 0;
@@ -104,5 +105,48 @@ impl Scorecard {
         total += self.chance.unwrap();
 
         Ok(total)
+    }
+}
+
+struct Die {
+    value: (u8, bool),
+}
+
+impl Die {
+    fn new() -> Self {
+        Self {
+            value: (MIN_NUMBER, false),
+        }
+    }
+
+    fn rand_num(&self) -> u8 {
+        let mut rng = rand::rng();
+        let val = rng.random_range(MIN_NUMBER..=MAX_NUMBER);
+        val
+    }
+
+    pub fn roll(&mut self) {
+        let val = self.rand_num();
+        self.value = (val, self.value.1);
+    }
+}
+
+struct Dice {
+    first: Die,
+    second: Die,
+    third: Die,
+    fourth: Die,
+    fifth: Die,
+}
+
+impl Dice {
+    fn new() -> Self {
+        Self {
+            first: Die::new(),
+            second: Die::new(),
+            third: Die::new(),
+            fourth: Die::new(),
+            fifth: Die::new(),
+        }
     }
 }
