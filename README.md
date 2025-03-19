@@ -1,6 +1,6 @@
 # yahtzee
 
-### Purpose: ?
+### Purpose:
 
 I had started this repo when I was furst entering the industry, hoping to sharpen my vanilla JS skills. At this point I'm thinking that it would actually be fun to use a yahtzee app as a testing ground when trying new frameworks, libraries and languages because it's a familiar problem that requires some level of forethought.
 
