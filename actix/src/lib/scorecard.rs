@@ -38,64 +38,70 @@ impl Scorecard {
     pub fn score_upper(&mut self, val: &str, dice: Dice) {
         match val {
             "ones" => {
-                let mut total: u16 = 0;
-                for die in dice.iter() {
-                    if die.val() == 1 {
-                        total += 1;
-                        self.ones = Some(total);
-                    }
-                }
+                let total: u16 = dice
+                    .iter()
+                    .into_iter()
+                    .filter(|die| die.val() == 1)
+                    .map(|die| die.val() as u16)
+                    .sum();
+
+                self.ones = Some(total);
             }
             "twos" => {
-                let mut total: u16 = 0;
-                for die in dice.iter() {
-                    if die.val() == 2 {
-                        total += 1;
-                        self.twos = Some(total);
-                    }
-                }
+                let total: u16 = dice
+                    .iter()
+                    .into_iter()
+                    .filter(|die| die.val() == 2)
+                    .map(|die| die.val() as u16)
+                    .sum();
+
+                self.twos = Some(total);
             }
             "threes" => {
-                let mut total: u16 = 0;
-                for die in dice.iter() {
-                    if die.val() == 3 {
-                        total += 1;
-                        self.threes = Some(total);
-                    }
-                }
+                let total: u16 = dice
+                    .iter()
+                    .into_iter()
+                    .filter(|die| die.val() == 3)
+                    .map(|die| die.val() as u16)
+                    .sum();
+
+                self.threes = Some(total);
             }
             "fours" => {
-                let mut total: u16 = 0;
-                for die in dice.iter() {
-                    if die.val() == 4 {
-                        total += 1;
-                        self.fours = Some(total);
-                    }
-                }
+                let total: u16 = dice
+                    .iter()
+                    .into_iter()
+                    .filter(|die| die.val() == 4)
+                    .map(|die| die.val() as u16)
+                    .sum();
+
+                self.fours = Some(total);
             }
             "fives" => {
-                let mut total: u16 = 0;
-                for die in dice.iter() {
-                    if die.val() == 5 {
-                        total += 1;
-                        self.fives = Some(total);
-                    }
-                }
+                let total: u16 = dice
+                    .iter()
+                    .into_iter()
+                    .filter(|die| die.val() == 5)
+                    .map(|die| die.val() as u16)
+                    .sum();
+
+                self.fives = Some(total);
             }
             "sixes" => {
-                let mut total: u16 = 0;
-                for die in dice.iter() {
-                    if die.val() == 6 {
-                        total += 1;
-                        self.sixes = Some(total);
-                    }
-                }
+                let total: u16 = dice
+                    .iter()
+                    .into_iter()
+                    .filter(|die| die.val() == 6)
+                    .map(|die| die.val() as u16)
+                    .sum();
+
+                self.sixes = Some(total);
             }
             _ => {}
         }
     }
 
-    fn validate_board(&self) -> bool {
+    fn validate(&self) -> bool {
         self.ones.is_some()
             && self.twos.is_some()
             && self.threes.is_some()
@@ -111,8 +117,8 @@ impl Scorecard {
             && self.chance.is_some()
     }
 
-    pub fn get_total(&self) -> Result<u16, String> {
-        if !self.validate_board() {
+    pub fn score(&self) -> Result<u16, String> {
+        if !self.validate() {
             return Err("Not all fields are filled out".to_string());
         }
         let mut total = 0;
