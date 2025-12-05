@@ -6,59 +6,18 @@ This document tracks and expands upon TODO items found in the actix implementati
 
 The actix Yahtzee implementation is a Rust-based web application using the Actix Web framework. The core game logic is partially implemented, with several key features requiring completion.
 
+## Recent Updates
+
+**As of December 5, 2025:**
+- ✅ Die freeze/unfreeze TODO comment removed (commit 892f883) - functionality was already implemented
+- ✅ Scorecard upper section bug fixed (commit e0a6bb8) - now correctly sums face values
+- ✅ Scorecard method renames: `validate_board()` → `validate()`, `get_total()` → `score()`
+
 ---
 
 ## TODO Items
 
-### 1. Die Freeze/Unfreeze Functionality
-
-**Location:** `actix/src/lib/die.rs:9`
-
-**Original TODO:**
-```rust
-// TODO: implement freeze and unfreeze fn, which will preserve the current value on roll
-```
-
-**Current State:**
-- The `Die` struct has a tuple `value: (u8, bool)` where the boolean represents frozen state
-- The `lock()` and `unlock()` methods already exist and set the frozen flag
-- The `roll()` method checks the frozen state and returns early if frozen
-
-**Status:** ✅ **COMPLETE**
-
-The freeze/unfreeze functionality is already implemented through the `lock()` and `unlock()` methods. The TODO comment is outdated and can be removed.
-
-**Action Items:**
-- [ ] Remove the outdated TODO comment
-- [ ] Consider renaming `lock()`/`unlock()` to `freeze()`/`unfreeze()` for clarity if preferred
-- [ ] Add unit tests for freeze/unfreeze behavior
-
-**Related Issue:**
-Note that `actix/src/lib/scorecard.rs` has two critical bugs in the existing `score_upper` method (lines 38-96):
-
-1. **Wrong value added**: Line 44 uses `total += 1` instead of `total += die.val() as u16`, so it counts matching dice instead of summing their face values
-2. **Assignment inside loop**: Line 45 sets `self.ones = Some(total)` inside the loop, overwriting the value on each iteration
-
-For example, if dice show `[1,1,1,3,4]`, scoring "ones":
-- Current buggy behavior: Adds 1 three times (total becomes 3) but overwrites `self.ones` each time, potentially resulting in `Some(1)`, `Some(2)`, or `Some(3)` depending on execution
-- Expected behavior: Should sum the face values (1+1+1=3) and set `self.ones = Some(3)` once after the loop
-
-The corrected logic should be:
-```rust
-"ones" => {
-    let total: u16 = dice.iter()
-        .filter(|die| die.val() == 1)
-        .map(|die| die.val() as u16)  // Sum face values, not count
-        .sum();
-    self.ones = Some(total);  // Set once after accumulation
-}
-```
-
-This bug affects all six upper section categories (ones through sixes) and should be fixed before implementing the full game logic.
-
----
-
-### 2. Dice Collection Freeze Functionality
+### 1. Dice Collection Freeze Functionality
 
 **Location:** `actix/src/lib/dice.rs:12`
 
@@ -156,7 +115,7 @@ Ensure the `roll()` method respects frozen dice (it already does via `Die::roll(
 
 ---
 
-### 3. Game Logic Implementation
+### 2. Game Logic Implementation
 
 **Location:** `actix/src/lib/game.rs:18`
 
@@ -547,16 +506,12 @@ pub fn get_available_categories(&self) -> Vec<String> {
 
 ## Implementation Priority
 
-1. **High Priority:** Dice freeze functionality (TODO #2)
+1. **High Priority:** Dice freeze functionality (TODO #1)
    - Foundational for game mechanics
    - Relatively simple to implement
    - Enables testing of roll mechanics
 
-2. **Medium Priority:** Remove outdated TODO (TODO #1)
-   - Quick win
-   - Improves code clarity
-
-3. **High Priority:** Game logic implementation (TODO #3)
+2. **High Priority:** Game logic implementation (TODO #2)
    - Most complex item
    - Core game functionality
    - Should be broken into multiple PRs:
