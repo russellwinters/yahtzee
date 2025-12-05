@@ -33,6 +33,18 @@ The freeze/unfreeze functionality is already implemented through the `lock()` an
 - [ ] Consider renaming `lock()`/`unlock()` to `freeze()`/`unfreeze()` for clarity if preferred
 - [ ] Add unit tests for freeze/unfreeze behavior
 
+**Related Issue:**
+Note that `actix/src/lib/scorecard.rs` has a critical bug in the existing `score_upper` method (lines 38-96). The current implementation incorrectly sets the score to `1` each time a matching die is found, rather than accumulating the sum. For example, if dice show `[1,1,1,3,4]`, scoring "ones" would set `self.ones = Some(1)` instead of `Some(3)`. This bug should be fixed before implementing the full game logic. The corrected logic should be:
+```rust
+"ones" => {
+    let total: u16 = dice.iter()
+        .filter(|die| die.val() == 1)
+        .map(|die| die.val() as u16)
+        .sum();
+    self.ones = Some(total);
+}
+```
+
 ---
 
 ### 2. Dice Collection Freeze Functionality
@@ -168,12 +180,29 @@ Add fields to track game state:
 ```rust
 pub struct Game {
     dice: Dice,
-    rolls_remaining: u8,  // Rename from 'rolls', track remaining rolls in turn
-    turn: u8,             // Track which turn (1-13)
+    rolls_remaining: u8,  // NEW: Track remaining rolls in current turn
+    turn: u8,             // NEW: Track which turn (1-13)
     score: Scorecard,
-    game_over: bool,
+    game_over: bool,      // NEW: Track if game has ended
 }
 ```
+
+**Migration Note:** The existing `rolls` field (which tracked total rolls taken) is being replaced with `rolls_remaining` (which tracks remaining rolls in the current turn). This is a breaking change that better aligns with game logic. When implementing:
+1. Remove the old `rolls: u8` field
+2. Add the new fields: `rolls_remaining: u8`, `turn: u8`, and `game_over: bool`
+3. Update the `new()` constructor to initialize these fields:
+   ```rust
+   pub fn new() -> Self {
+       Self {
+           dice: Dice::new(),
+           rolls_remaining: consts::MAX_ROLLS,
+           turn: 1,
+           score: Scorecard::new(),
+           game_over: false,
+       }
+   }
+   ```
+
 
 #### Step 2: Implement Turn Management
 Add turn lifecycle methods:
@@ -282,7 +311,8 @@ fn calculate_score(&self, category: &str) -> Result<u16, String> {
     let dice_values = self.get_dice_values();
     
     match category {
-        // Upper section: sum of matching dice
+        // Upper section: sum of matching face values
+        // Example: three 5s scores 15 points (5+5+5), not 3
         "ones" => Ok(Self::sum_matching(&dice_values, 1)),
         "twos" => Ok(Self::sum_matching(&dice_values, 2)),
         "threes" => Ok(Self::sum_matching(&dice_values, 3)),
@@ -309,6 +339,9 @@ Add scoring helper methods as associated functions on `Game`:
 
 ```rust
 // Helper methods for Game impl block
+
+// Sums the face values of all dice matching the target value
+// Example: for dice [5,5,5,3,2] and target 5, returns 15 (5+5+5)
 fn sum_matching(values: &[u8], target: u8) -> u16 {
     values.iter()
         .filter(|&&v| v == target)
