@@ -273,11 +273,12 @@ pub fn scratch_category(&mut self, category: &str) -> Result<(), String> {
 ```
 
 #### Step 4: Implement Score Calculation
-Add scoring logic for each category (this will require significant expansion of `Scorecard`):
+Add scoring logic for each category. Note: Helper methods like `sum_matching()`, `calculate_n_of_kind()`, etc. are defined in Step 5 below. The `get_dice_values()` method is defined in Step 6.
 
 ```rust
+// Private helper method for calculating scores
 fn calculate_score(&self, category: &str) -> Result<u16, String> {
-    // Get current dice values using public method
+    // Get current dice values using public method (defined in Step 6)
     let dice_values = self.get_dice_values();
     
     match category {
@@ -304,9 +305,10 @@ fn calculate_score(&self, category: &str) -> Result<u16, String> {
 ```
 
 #### Step 5: Implement Helper Methods
-Add scoring helper methods:
+Add scoring helper methods as associated functions on `Game`:
 
 ```rust
+// Helper methods for Game impl block
 fn sum_matching(values: &[u8], target: u8) -> u16 {
     values.iter()
         .filter(|&&v| v == target)
@@ -424,7 +426,17 @@ pub fn record_score(&mut self, category: &str, score: u16) -> Result<(), String>
     match category {
         "ones" => self.ones = Some(score),
         "twos" => self.twos = Some(score),
-        // ... etc for all categories
+        "threes" => self.threes = Some(score),
+        "fours" => self.fours = Some(score),
+        "fives" => self.fives = Some(score),
+        "sixes" => self.sixes = Some(score),
+        "three_of_a_kind" => self.three_of_a_kind = Some(score),
+        "four_of_a_kind" => self.four_of_a_kind = Some(score),
+        "full_house" => self.full_house = Some(score),
+        "small_straight" => self.small_straight = Some(score),
+        "large_straight" => self.large_straight = Some(score),
+        "yahtzee" => self.yahtzee = Some(score),
+        "chance" => self.chance = Some(score),
         _ => return Err(format!("Invalid category: {}", category)),
     }
     
@@ -435,7 +447,17 @@ pub fn is_category_filled(&self, category: &str) -> bool {
     match category {
         "ones" => self.ones.is_some(),
         "twos" => self.twos.is_some(),
-        // ... etc
+        "threes" => self.threes.is_some(),
+        "fours" => self.fours.is_some(),
+        "fives" => self.fives.is_some(),
+        "sixes" => self.sixes.is_some(),
+        "three_of_a_kind" => self.three_of_a_kind.is_some(),
+        "four_of_a_kind" => self.four_of_a_kind.is_some(),
+        "full_house" => self.full_house.is_some(),
+        "small_straight" => self.small_straight.is_some(),
+        "large_straight" => self.large_straight.is_some(),
+        "yahtzee" => self.yahtzee.is_some(),
+        "chance" => self.chance.is_some(),
         _ => false,
     }
 }
@@ -445,7 +467,17 @@ pub fn get_available_categories(&self) -> Vec<String> {
     
     if self.ones.is_none() { available.push("ones".to_string()); }
     if self.twos.is_none() { available.push("twos".to_string()); }
-    // ... etc for all categories
+    if self.threes.is_none() { available.push("threes".to_string()); }
+    if self.fours.is_none() { available.push("fours".to_string()); }
+    if self.fives.is_none() { available.push("fives".to_string()); }
+    if self.sixes.is_none() { available.push("sixes".to_string()); }
+    if self.three_of_a_kind.is_none() { available.push("three_of_a_kind".to_string()); }
+    if self.four_of_a_kind.is_none() { available.push("four_of_a_kind".to_string()); }
+    if self.full_house.is_none() { available.push("full_house".to_string()); }
+    if self.small_straight.is_none() { available.push("small_straight".to_string()); }
+    if self.large_straight.is_none() { available.push("large_straight".to_string()); }
+    if self.yahtzee.is_none() { available.push("yahtzee".to_string()); }
+    if self.chance.is_none() { available.push("chance".to_string()); }
     
     available
 }
