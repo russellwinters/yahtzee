@@ -34,16 +34,27 @@ The freeze/unfreeze functionality is already implemented through the `lock()` an
 - [ ] Add unit tests for freeze/unfreeze behavior
 
 **Related Issue:**
-Note that `actix/src/lib/scorecard.rs` has a critical bug in the existing `score_upper` method (lines 38-96). The current implementation incorrectly sets the score to `1` each time a matching die is found, rather than accumulating the sum. For example, if dice show `[1,1,1,3,4]`, scoring "ones" would set `self.ones = Some(1)` instead of `Some(3)`. This bug should be fixed before implementing the full game logic. The corrected logic should be:
+Note that `actix/src/lib/scorecard.rs` has two critical bugs in the existing `score_upper` method (lines 38-96):
+
+1. **Wrong value added**: Line 44 uses `total += 1` instead of `total += die.val() as u16`, so it counts matching dice instead of summing their face values
+2. **Assignment inside loop**: Line 45 sets `self.ones = Some(total)` inside the loop, overwriting the value on each iteration
+
+For example, if dice show `[1,1,1,3,4]`, scoring "ones":
+- Current buggy behavior: Adds 1 three times (total becomes 3) but overwrites `self.ones` each time, potentially resulting in `Some(1)`, `Some(2)`, or `Some(3)` depending on execution
+- Expected behavior: Should sum the face values (1+1+1=3) and set `self.ones = Some(3)` once after the loop
+
+The corrected logic should be:
 ```rust
 "ones" => {
     let total: u16 = dice.iter()
         .filter(|die| die.val() == 1)
-        .map(|die| die.val() as u16)
+        .map(|die| die.val() as u16)  // Sum face values, not count
         .sum();
-    self.ones = Some(total);
+    self.ones = Some(total);  // Set once after accumulation
 }
 ```
+
+This bug affects all six upper section categories (ones through sixes) and should be fixed before implementing the full game logic.
 
 ---
 
