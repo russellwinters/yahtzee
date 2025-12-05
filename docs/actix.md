@@ -277,6 +277,7 @@ Add scoring logic for each category (this will require significant expansion of 
 
 ```rust
 fn calculate_score(&self, category: &str) -> Result<u16, String> {
+    // Get current dice values using public method
     let dice_values = self.get_dice_values();
     
     match category {
@@ -306,10 +307,6 @@ fn calculate_score(&self, category: &str) -> Result<u16, String> {
 Add scoring helper methods:
 
 ```rust
-fn get_dice_values(&self) -> Vec<u8> {
-    self.dice.iter().map(|die| die.val()).collect()
-}
-
 fn sum_matching(values: &[u8], target: u8) -> u16 {
     values.iter()
         .filter(|&&v| v == target)
