@@ -9,6 +9,7 @@ pub struct Dice {
 }
 
 impl Dice {
+    // TODO: Implement freeze fn, which will take an index and freeze that die in the iter()
     pub fn new() -> Self {
         Self {
             first: Die::new(),

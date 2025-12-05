@@ -6,6 +6,7 @@ pub struct Die {
 }
 
 impl Die {
+    // TODO: implement freeze and unfreeze fn, which will preserve the current value on roll
     pub fn new() -> Self {
         Self {
             value: (MIN_NUMBER, false),

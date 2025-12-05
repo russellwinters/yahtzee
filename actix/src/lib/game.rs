@@ -14,4 +14,11 @@ impl Game {
             score: Scorecard::new(),
         }
     }
+
+    // TODO: plan out how to implement the rest of this game, with:
+    // - rolls
+    // - freeze/unfreeze
+    // - Tally scores
+    // - scratching
+    // - validation on each scorecard item
 }
