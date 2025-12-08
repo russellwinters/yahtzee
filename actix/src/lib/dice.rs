@@ -37,4 +37,24 @@ impl Dice {
             &self.fifth,
         ]
     }
+
+    pub fn lock(&mut self) -> &mut Dice {
+        self.first.lock();
+        self.second.lock();
+        self.third.lock();
+        self.fourth.lock();
+        self.fifth.lock();
+
+        self
+    }
+
+    pub fn unlock(&mut self) -> &mut Dice {
+        self.first.unlock();
+        self.second.unlock();
+        self.third.unlock();
+        self.fourth.unlock();
+        self.fifth.unlock();
+
+        self
+    }
 }

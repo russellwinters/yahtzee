@@ -31,11 +31,15 @@ impl Die {
         self.value = (val, self.value.1);
     }
 
-    pub fn lock(&mut self) {
+    pub fn lock(&mut self) -> &mut Die {
         self.value = (self.value.0, true);
+
+        self
     }
 
-    pub fn unlock(&mut self) {
+    pub fn unlock(&mut self) -> &mut Die {
         self.value = (self.value.0, false);
+
+        self
     }
 }
