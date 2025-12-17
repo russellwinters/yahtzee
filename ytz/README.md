@@ -7,11 +7,13 @@ A minimal Yahtzee application built with Elixir and Phoenix.
 To start the server:
 
 ```bash
-mix deps.get
+mix compile
 mix run --no-halt
 ```
 
 The application will be available at `http://localhost:4000`
+
+Note: This project has no external dependencies and uses only Elixir/Erlang built-in libraries.
 
 ## Features
 

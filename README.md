@@ -14,4 +14,8 @@ In deciding what to do, I'm finding what I look for is:
 
 ### End Product:
 
-Hoping to use this repo as a testing ground. Dropped the initial app into the `/chrome-extension` directory, and am thinking of adding different apps in due time.
+Hoping to use this repo as a testing ground. Current implementations:
+
+- `/chrome-extension` - Initial vanilla JS implementation
+- `/actix` - Rust implementation using Actix framework
+- `/ytz` - Elixir implementation with custom HTTP server
