@@ -28,8 +28,8 @@ defmodule YtzWeb.Server do
   defp accept_loop(listen_socket) do
     case :gen_tcp.accept(listen_socket) do
       {:ok, client_socket} ->
-        # Spawn a new process to handle the request
-        spawn(fn -> handle_client(client_socket) end)
+        # Use Task.start for better resource management
+        Task.start(fn -> handle_client(client_socket) end)
         
         # Continue accepting connections
         accept_loop(listen_socket)
