@@ -14,20 +14,36 @@ A Yahtzee game implementation using Phoenix LiveView. The core game logic will o
 
 ## Getting Started
 
-To start your Phoenix server:
+⚠️ **IMPORTANT**: You must install dependencies before running the server!
 
-1. Install dependencies (requires internet access to hex.pm):
+### Quick Start
+
+1. **Navigate to the ytz directory**:
    ```bash
    cd ytz
-   mix deps.get
    ```
 
-2. Start the Phoenix endpoint:
+2. **Install dependencies** (requires internet access to hex.pm):
+   ```bash
+   mix deps.get
+   ```
+   
+   This downloads and compiles Phoenix and all required dependencies. It may take a few minutes.
+
+3. **Start the Phoenix server**:
    ```bash
    mix phx.server
    ```
 
-3. Visit [`localhost:4000`](http://localhost:4000) in your browser
+4. **Visit the application**:
+   
+   Open your browser to [`localhost:4000`](http://localhost:4000)
+
+### Troubleshooting
+
+If you see errors like "module Phoenix.View is not loaded", you need to run `mix deps.get` first!
+
+See [QUICKSTART.md](QUICKSTART.md) for detailed instructions.
 
 ## Current Status
 
