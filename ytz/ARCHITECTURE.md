@@ -1,4 +1,4 @@
-# Phoenix Yahtzee Architecture
+# Ytz (Yahtzee) Architecture
 
 ## High-Level Architecture
 
@@ -18,27 +18,27 @@
 │                    Phoenix Server (Elixir)                   │
 │                                                               │
 │  ┌─────────────────────────────────────────────────────┐   │
-│  │              PhoenixWeb.Endpoint                     │   │
+│  │              YtzWeb.Endpoint                     │   │
 │  │  • HTTP request handling                             │   │
 │  │  • WebSocket upgrades                                │   │
 │  │  • Static file serving                               │   │
 │  └──────────────────────┬───────────────────────────────┘   │
 │                         │                                     │
 │  ┌──────────────────────▼───────────────────────────────┐   │
-│  │              PhoenixWeb.Router                       │   │
+│  │              YtzWeb.Router                       │   │
 │  │  • Route matching                                    │   │
 │  │  • Pipeline execution                                │   │
 │  └──────────────────────┬───────────────────────────────┘   │
 │                         │                                     │
 │  ┌──────────────────────▼───────────────────────────────┐   │
-│  │           PhoenixWeb.HomeLive                        │   │
+│  │           YtzWeb.HomeLive                        │   │
 │  │  • Mount: Initialize state                           │   │
 │  │  • Handle events: Process user actions               │   │
 │  │  • Render: Generate HTML                             │   │
 │  └──────────────────────────────────────────────────────┘   │
 │                                                               │
 │  ┌──────────────────────────────────────────────────────┐   │
-│  │              Phoenix.PubSub                          │   │
+│  │              Ytz.PubSub                          │   │
 │  │  • Message broadcasting                              │   │
 │  │  • Process communication                             │   │
 │  └──────────────────────────────────────────────────────┘   │
@@ -162,7 +162,7 @@ Route Handler (HomeLive)
         │                             │
         ▼                             ▼
 ┌───────────────┐           ┌─────────────────┐
-│ Phoenix.PubSub│           │ PhoenixWeb      │
+│ Ytz.PubSub│           │ PhoenixWeb      │
 │               │           │ .Endpoint       │
 │ • Distributed │           │                 │
 │ • Fault-tol.  │           │ • HTTP listener │
@@ -251,7 +251,7 @@ When game logic is added, the architecture will expand:
 └─────────────────────┬───────────────────────────────┘
                       │
 ┌─────────────────────▼───────────────────────────────┐
-│                Phoenix.PubSub                        │
+│                Ytz.PubSub                        │
 │  • Broadcast game updates to all players             │
 │  • Real-time score changes                           │
 │  • Turn notifications                                │

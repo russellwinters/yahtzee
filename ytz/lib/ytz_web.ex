@@ -1,4 +1,4 @@
-defmodule PhoenixWeb do
+defmodule YtzWeb do
   @moduledoc """
   The entrypoint for defining your web interface, such
   as controllers, views, channels and so on.
@@ -6,18 +6,18 @@ defmodule PhoenixWeb do
 
   def controller do
     quote do
-      use Phoenix.Controller, namespace: PhoenixWeb
+      use Phoenix.Controller, namespace: YtzWeb
 
       import Plug.Conn
-      alias PhoenixWeb.Router.Helpers, as: Routes
+      alias YtzWeb.Router.Helpers, as: Routes
     end
   end
 
   def view do
     quote do
       use Phoenix.View,
-        root: "lib/phoenix_web/templates",
-        namespace: PhoenixWeb
+        root: "lib/ytz_web/templates",
+        namespace: YtzWeb
 
       import Phoenix.Controller,
         only: [get_flash: 1, get_flash: 2, view_module: 1, view_template: 1]
@@ -29,7 +29,7 @@ defmodule PhoenixWeb do
   def live_view do
     quote do
       use Phoenix.LiveView,
-        layout: {PhoenixWeb.LayoutView, :app}
+        layout: {YtzWeb.LayoutView, :app}
 
       unquote(view_helpers())
     end
@@ -58,9 +58,9 @@ defmodule PhoenixWeb do
       use Phoenix.HTML
 
       import Phoenix.LiveView.Helpers
-      import PhoenixWeb.ErrorHelpers
+      import YtzWeb.ErrorHelpers
 
-      alias PhoenixWeb.Router.Helpers, as: Routes
+      alias YtzWeb.Router.Helpers, as: Routes
     end
   end
 

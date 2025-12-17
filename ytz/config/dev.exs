@@ -2,7 +2,7 @@ import Config
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
-config :phoenix, PhoenixWeb.Endpoint,
+config :ytz, YtzWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 4000],
   check_origin: false,
   code_reloader: true,
@@ -11,12 +11,12 @@ config :phoenix, PhoenixWeb.Endpoint,
   watchers: []
 
 # Watch static and templates for browser reloading.
-config :phoenix, PhoenixWeb.Endpoint,
+config :ytz, YtzWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
-      ~r"lib/phoenix_web/(live|views)/.*(ex)$",
-      ~r"lib/phoenix_web/templates/.*(eex)$"
+      ~r"lib/ytz_web/(live|views)/.*(ex)$",
+      ~r"lib/ytz_web/templates/.*(eex)$"
     ]
   ]
 

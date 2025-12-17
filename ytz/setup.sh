@@ -1,7 +1,7 @@
 #!/bin/bash
-# Setup script for Phoenix Yahtzee project
+# Setup script for Ytz (Yahtzee) project
 
-echo "Setting up Phoenix Yahtzee..."
+echo "Setting up Ytz (Yahtzee)..."
 
 # Check if Elixir is installed
 if ! command -v elixir &> /dev/null; then

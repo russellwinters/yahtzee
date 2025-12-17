@@ -1,12 +1,12 @@
-defmodule PhoenixWeb.Endpoint do
-  use Phoenix.Endpoint, otp_app: :phoenix
+defmodule YtzWeb.Endpoint do
+  use Phoenix.Endpoint, otp_app: :ytz
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
   @session_options [
     store: :cookie,
-    key: "_phoenix_key",
+    key: "_ytz_key",
     signing_salt: System.get_env("SESSION_SIGNING_SALT") || "CHANGE_ME_IN_PRODUCTION_SECRET_SIGNING_SALT"
   ]
 
@@ -15,7 +15,7 @@ defmodule PhoenixWeb.Endpoint do
   # Serve at "/" the static files from "priv/static" directory.
   plug Plug.Static,
     at: "/",
-    from: :phoenix,
+    from: :ytz,
     gzip: false,
     only: ~w(css fonts images js favicon.ico robots.txt)
 
@@ -28,7 +28,7 @@ defmodule PhoenixWeb.Endpoint do
   end
 
   plug Plug.RequestId
-  plug Plug.Telemetry, event_prefix: [:phoenix, :endpoint]
+  plug Plug.Telemetry, event_prefix: [:ytz, :endpoint]
 
   plug Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
@@ -38,5 +38,5 @@ defmodule PhoenixWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug PhoenixWeb.Router
+  plug YtzWeb.Router
 end

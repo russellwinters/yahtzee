@@ -1,4 +1,4 @@
-# Phoenix Yahtzee - Implementation Complete ✅
+# Ytz (Yahtzee) - Implementation Complete ✅
 
 ## Summary
 
@@ -114,8 +114,8 @@ phoenix/
 
 ### 2. LiveView Homepage ⭐
 ```elixir
-# lib/phoenix_web/live/home_live.ex
-defmodule PhoenixWeb.HomeLive do
+# lib/ytz_web/live/home_live.ex
+defmodule YtzWeb.HomeLive do
   use PhoenixWeb, :live_view
 
   def mount(_params, _session, socket) do
@@ -132,7 +132,7 @@ end
 
 ### 3. Routing ⭐
 ```elixir
-# lib/phoenix_web/router.ex
+# lib/ytz_web/router.ex
 scope "/", PhoenixWeb do
   pipe_through :browser
   live "/", HomeLive, :index  # Root path to LiveView
@@ -229,7 +229,7 @@ When dependencies are installed and server is running:
 
 1. **Navigate to directory**:
    ```bash
-   cd phoenix
+   cd ytz
    ```
 
 2. **Run setup script**:
@@ -288,7 +288,7 @@ Before deploying to production:
 ### Test Structure Created
 ```elixir
 # test/phoenix_web/live/home_live_test.exs
-defmodule PhoenixWeb.HomeLiveTest do
+defmodule YtzWeb.HomeLiveTest do
   use ExUnit.Case, async: true
   
   # Placeholder tests for future implementation
@@ -324,13 +324,13 @@ All security concerns addressed:
 
 This scaffolding provides the foundation for:
 
-1. **Game Logic Module** (`lib/phoenix/game/`)
+1. **Game Logic Module** (`lib/ytz/game/`)
    - Dice rolling
    - Score calculation
    - Rule validation
    - Turn management
 
-2. **Game LiveView** (`lib/phoenix_web/live/game_live.ex`)
+2. **Game LiveView** (`lib/ytz_web/live/game_live.ex`)
    - Interactive dice
    - Live scorecard
    - Turn indicator
@@ -364,7 +364,7 @@ This scaffolding provides the foundation for:
 
 1. **Install dependencies**:
    ```bash
-   cd phoenix
+   cd ytz
    # Uncomment dependencies in mix.exs
    mix deps.get
    ```
@@ -382,7 +382,7 @@ This scaffolding provides the foundation for:
 
 4. **Begin game development**:
    - Review ARCHITECTURE.md for design guidance
-   - Start implementing game logic in `lib/phoenix/game/`
+   - Start implementing game logic in `lib/ytz/game/`
    - Expand HomeLive or create GameLive
    - Add real-time multiplayer features
 

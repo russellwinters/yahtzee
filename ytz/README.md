@@ -1,4 +1,4 @@
-# Phoenix Yahtzee
+# Ytz (Yahtzee)
 
 A Yahtzee game implementation using Phoenix LiveView. The core game logic will occur on the backend, while the UI is built with Phoenix LiveView.
 
@@ -18,7 +18,7 @@ To start your Phoenix server:
 
 1. Install dependencies (requires internet access to hex.pm):
    ```bash
-   cd phoenix
+   cd ytz
    mix deps.get
    ```
 
@@ -50,10 +50,10 @@ The project structure has been initialized with:
 
 The application is structured as follows:
 
-- `lib/phoenix/` - Core application files
-- `lib/phoenix_web/` - Web-related modules (controllers, views, LiveViews)
-- `lib/phoenix_web/live/` - LiveView modules
-- `lib/phoenix_web/templates/` - HTML templates
+- `lib/ytz/` - Core application files
+- `lib/ytz_web/` - Web-related modules (controllers, views, LiveViews)
+- `lib/ytz_web/live/` - LiveView modules
+- `lib/ytz_web/templates/` - HTML templates
 - `config/` - Configuration files
 
 ## Testing

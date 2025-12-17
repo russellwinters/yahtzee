@@ -1,4 +1,4 @@
-# Phoenix Yahtzee Project - Implementation Summary
+# Ytz (Yahtzee) Project - Implementation Summary
 
 ## Overview
 
@@ -8,32 +8,32 @@ A Phoenix LiveView-based Yahtzee game implementation has been initialized with c
 
 ### 1. Core Application Structure ✓
 
-- **Application Module** (`lib/phoenix/application.ex`)
+- **Application Module** (`lib/ytz/application.ex`)
   - Supervision tree setup
   - PubSub configuration
   - Endpoint initialization
 
-- **Web Module** (`lib/phoenix_web.ex`)
+- **Web Module** (`lib/ytz_web.ex`)
   - Controller, view, and LiveView macros
   - Common imports and helpers
   - View helpers setup
 
 ### 2. Web Layer ✓
 
-- **Endpoint** (`lib/phoenix_web/endpoint.ex`)
+- **Endpoint** (`lib/ytz_web/endpoint.ex`)
   - LiveView socket configuration
   - Static file serving
   - Session management
   - Request parsing
 
-- **Router** (`lib/phoenix_web/router.ex`)
+- **Router** (`lib/ytz_web/router.ex`)
   - Browser pipeline with CSRF protection
   - LiveView route configuration
   - Root path to HomeLive
 
 ### 3. LiveView Implementation ✓
 
-- **HomeLive** (`lib/phoenix_web/live/home_live.ex`)
+- **HomeLive** (`lib/ytz_web/live/home_live.ex`)
   - Mount function with initial state
   - Ping/pong event handler
   - Render function with HTML template
@@ -41,14 +41,14 @@ A Phoenix LiveView-based Yahtzee game implementation has been initialized with c
 
 ### 4. Views and Templates ✓
 
-- **Layout View** (`lib/phoenix_web/views/layout_view.ex`)
-- **Error View** (`lib/phoenix_web/views/error_view.ex`)
-- **Error Helpers** (`lib/phoenix_web/views/error_helpers.ex`)
-- **Root Layout** (`lib/phoenix_web/templates/layout/root.html.heex`)
+- **Layout View** (`lib/ytz_web/views/layout_view.ex`)
+- **Error View** (`lib/ytz_web/views/error_view.ex`)
+- **Error Helpers** (`lib/ytz_web/views/error_helpers.ex`)
+- **Root Layout** (`lib/ytz_web/templates/layout/root.html.heex`)
   - Full HTML document structure
   - Inline CSS for styling
   - Responsive design
-- **App Layout** (`lib/phoenix_web/templates/layout/app.html.heex`)
+- **App Layout** (`lib/ytz_web/templates/layout/app.html.heex`)
   - Inner content wrapper
 
 ### 5. Configuration ✓
@@ -204,7 +204,7 @@ To make this project fully functional:
 
 1. **Install Dependencies**:
    ```bash
-   cd phoenix
+   cd ytz
    # Uncomment dependencies in mix.exs
    mix deps.get
    ```

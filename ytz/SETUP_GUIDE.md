@@ -1,6 +1,6 @@
-# Phoenix Yahtzee Setup Guide
+# Ytz (Yahtzee) Setup Guide
 
-This guide will help you get the Phoenix Yahtzee application up and running.
+This guide will help you get the Ytz (Yahtzee) application up and running.
 
 ## Prerequisites
 
@@ -22,7 +22,7 @@ elixir --version
 ### Option 1: Using the setup script
 
 ```bash
-cd phoenix
+cd ytz
 ./setup.sh
 ```
 
@@ -43,10 +43,10 @@ This will:
    ```elixir
    defp deps do
      [
-       {:phoenix, "~> 1.7.0"},
-       {:phoenix_html, "~> 3.0"},
-       {:phoenix_live_reload, "~> 1.2", only: :dev},
-       {:phoenix_live_view, "~> 0.20.0"},
+       {:ytz, "~> 1.7.0"},
+       {:ytz_html, "~> 3.0"},
+       {:ytz_live_reload, "~> 1.2", only: :dev},
+       {:ytz_live_view, "~> 0.20.0"},
        {:plug_cowboy, "~> 2.0"},
        {:jason, "~> 1.2"}
      ]

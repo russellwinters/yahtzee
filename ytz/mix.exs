@@ -1,9 +1,9 @@
-defmodule Phoenix.MixProject do
+defmodule Ytz.MixProject do
   use Mix.Project
 
   def project do
     [
-      app: :phoenix,
+      app: :ytz,
       version: "0.1.0",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -15,7 +15,7 @@ defmodule Phoenix.MixProject do
 
   def application do
     [
-      mod: {Phoenix.Application, []},
+      mod: {Ytz.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end

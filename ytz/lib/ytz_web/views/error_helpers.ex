@@ -1,4 +1,4 @@
-defmodule PhoenixWeb.ErrorHelpers do
+defmodule YtzWeb.ErrorHelpers do
   @moduledoc """
   Conveniences for translating and building error messages.
   """

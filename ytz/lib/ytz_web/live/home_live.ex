@@ -1,5 +1,5 @@
-defmodule PhoenixWeb.HomeLive do
-  use PhoenixWeb, :live_view
+defmodule YtzWeb.HomeLive do
+  use YtzWeb, :live_view
 
   @impl true
   def mount(_params, _session, socket) do

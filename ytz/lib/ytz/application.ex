@@ -1,4 +1,4 @@
-defmodule Phoenix.Application do
+defmodule Ytz.Application do
   @moduledoc false
 
   use Application
@@ -6,17 +6,17 @@ defmodule Phoenix.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      {Phoenix.PubSub, name: Phoenix.PubSub},
-      PhoenixWeb.Endpoint
+      {Phoenix.PubSub, name: Ytz.PubSub},
+      YtzWeb.Endpoint
     ]
 
-    opts = [strategy: :one_for_one, name: Phoenix.Supervisor]
+    opts = [strategy: :one_for_one, name: Ytz.Supervisor]
     Supervisor.start_link(children, opts)
   end
 
   @impl true
   def config_change(changed, _new, removed) do
-    PhoenixWeb.Endpoint.config_change(changed, removed)
+    YtzWeb.Endpoint.config_change(changed, removed)
     :ok
   end
 end

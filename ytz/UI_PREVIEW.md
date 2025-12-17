@@ -1,6 +1,6 @@
 # UI Preview
 
-This document provides a preview of what the Phoenix Yahtzee UI looks like.
+This document provides a preview of what the Ytz (Yahtzee) UI looks like.
 
 ## Homepage (Current Implementation)
 

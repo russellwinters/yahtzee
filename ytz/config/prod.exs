@@ -1,6 +1,6 @@
 import Config
 
-config :phoenix, PhoenixWeb.Endpoint,
+config :ytz, YtzWeb.Endpoint,
   url: [host: "example.com", port: 80],
   cache_static_manifest: "priv/static/cache_manifest.json"
 

@@ -1,4 +1,4 @@
-defmodule PhoenixWeb.HomeLiveTest do
+defmodule YtzWeb.HomeLiveTest do
   use ExUnit.Case, async: true
   # Note: Full LiveView testing requires additional setup with Phoenix.ConnTest
   # This is a placeholder for future test implementation
