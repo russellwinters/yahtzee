@@ -38,32 +38,17 @@ This will:
    mix local.hex --force
    ```
 
-2. **Uncomment dependencies in mix.exs**:
-   Edit `mix.exs` and uncomment the dependencies in the `deps/0` function:
-   ```elixir
-   defp deps do
-     [
-       {:ytz, "~> 1.7.0"},
-       {:ytz_html, "~> 3.0"},
-       {:ytz_live_reload, "~> 1.2", only: :dev},
-       {:ytz_live_view, "~> 0.20.0"},
-       {:plug_cowboy, "~> 2.0"},
-       {:jason, "~> 1.2"}
-     ]
-   end
-   ```
-
-3. **Get dependencies**:
+2. **Get dependencies**:
    ```bash
    mix deps.get
    ```
 
-4. **Start the server**:
+3. **Start the server**:
    ```bash
    mix phx.server
    ```
 
-5. **Visit the application**:
+4. **Visit the application**:
    Open your browser to [http://localhost:4000](http://localhost:4000)
 
 ## What You'll See

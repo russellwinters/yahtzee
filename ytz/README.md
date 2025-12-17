@@ -38,11 +38,10 @@ The project structure has been initialized with:
 - All necessary configuration files
 - Basic styling for a clean UI
 
-**Note:** The project requires Phoenix and its dependencies to be installed. Due to the current environment's network restrictions, dependencies are listed but commented out in `mix.exs`. To make this functional:
+**Note:** The project requires Phoenix and its dependencies to be installed. To make this functional:
 
-1. Uncomment the dependencies in `mix.exs`
-2. Run `mix deps.get` to install them
-3. Start the server with `mix phx.server`
+1. Run `mix deps.get` to install dependencies
+2. Start the server with `mix phx.server`
 
 ⚠️ **Security Note:** Before deploying to production, ensure you generate proper secret keys and use environment variables. The current configuration includes placeholder secrets that should be changed.
 

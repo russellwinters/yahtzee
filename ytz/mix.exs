@@ -25,15 +25,12 @@ defmodule Ytz.MixProject do
 
   defp deps do
     [
-      # Note: Dependencies need to be installed with `mix deps.get`
-      # Due to network restrictions in this environment, dependencies
-      # are listed here but may need to be installed separately.
-      # {:phoenix, "~> 1.7.0"},
-      # {:phoenix_html, "~> 3.0"},
-      # {:phoenix_live_reload, "~> 1.2", only: :dev},
-      # {:phoenix_live_view, "~> 0.20.0"},
-      # {:plug_cowboy, "~> 2.0"},
-      # {:jason, "~> 1.2"}
+      {:phoenix, "~> 1.7.0"},
+      {:phoenix_html, "~> 3.0"},
+      {:phoenix_live_reload, "~> 1.2", only: :dev},
+      {:phoenix_live_view, "~> 0.20.0"},
+      {:plug_cowboy, "~> 2.0"},
+      {:jason, "~> 1.2"}
     ]
   end
 
