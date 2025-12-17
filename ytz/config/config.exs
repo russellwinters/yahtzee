@@ -1,9 +1,8 @@
 import Config
 
-# Configure the endpoint
-config :ytz, YtzWeb.Endpoint,
-  http: [port: 4000],
-  server: true
+# Configure the application
+config :ytz,
+  port: 4000
 
 # Import environment specific config
 import_config "#{config_env()}.exs"

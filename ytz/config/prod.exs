@@ -1,5 +1,4 @@
 import Config
 
-config :ytz, YtzWeb.Endpoint,
-  http: [port: 4000],
-  server: true
+config :ytz,
+  port: 4000

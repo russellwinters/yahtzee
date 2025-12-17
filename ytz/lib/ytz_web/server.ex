@@ -26,13 +26,18 @@ defmodule YtzWeb.Server do
   end
 
   defp accept_loop(listen_socket) do
-    {:ok, client_socket} = :gen_tcp.accept(listen_socket)
-    
-    # Spawn a new process to handle the request
-    spawn(fn -> handle_client(client_socket) end)
-    
-    # Continue accepting connections
-    accept_loop(listen_socket)
+    case :gen_tcp.accept(listen_socket) do
+      {:ok, client_socket} ->
+        # Spawn a new process to handle the request
+        spawn(fn -> handle_client(client_socket) end)
+        
+        # Continue accepting connections
+        accept_loop(listen_socket)
+      
+      {:error, reason} ->
+        Logger.error("Failed to accept connection: #{inspect(reason)}")
+        accept_loop(listen_socket)
+    end
   end
 
   defp handle_client(socket) do
@@ -49,12 +54,18 @@ defmodule YtzWeb.Server do
   end
 
   defp parse_request(data) do
-    [request_line | _] = String.split(data, "\r\n")
-    [method, path, _version] = String.split(request_line, " ")
-    
-    %{
-      method: method,
-      path: path
-    }
+    case String.split(data, "\r\n") do
+      [request_line | _] when request_line != "" ->
+        case String.split(request_line, " ") do
+          [method, path, _version] ->
+            %{method: method, path: path}
+          
+          _ ->
+            %{method: "GET", path: "/"}
+        end
+      
+      _ ->
+        %{method: "GET", path: "/"}
+    end
   end
 end
