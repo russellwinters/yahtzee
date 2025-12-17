@@ -1,31 +1,51 @@
 # Ytz - Yahtzee in Elixir
 
-A minimal Yahtzee application built with Elixir and Phoenix.
+A Yahtzee application built with Elixir using Phoenix-style architecture powered by Plug and Cowboy.
+
+## Architecture
+
+This application follows Phoenix conventions and patterns:
+- **Router**: `YtzWeb.Router` - Handles HTTP routing using `Plug.Router`
+- **Controller**: `YtzWeb.PageController` - Manages request/response logic
+- **Application**: `Ytz.Application` - Supervises the web server using `Plug.Cowboy`
+
+The application uses Plug and Cowboy for the web server infrastructure, providing a lightweight yet familiar Phoenix-style development experience.
 
 ## Getting Started
 
-To start the server:
+To install dependencies and start the server:
 
 ```bash
-mix compile
-mix run --no-halt
+# Get dependencies
+mix deps.get
+
+# Compile the application
+MIX_REBAR3=~/.mix/rebar3 mix compile
+
+# Start the server
+MIX_REBAR3=~/.mix/rebar3 mix run --no-halt
 ```
 
 The application will be available at `http://localhost:4000`
 
-Note: This project has no external dependencies and uses only Elixir/Erlang built-in libraries.
-
 ## Features
 
-- **Homepage**: Displays "Hello World" welcome message
+- **Homepage**: Displays "Hello World" welcome message with an interactive Ping button
 - **Ping/Pong**: Health check endpoint at `/ping` that returns "pong"
+- **Phoenix-style architecture**: Router, Controller, and Application supervision tree
 
 ## Endpoints
 
-- `GET /` - Homepage with Hello World
+- `GET /` - Homepage with Hello World and interactive Ping button
 - `GET /ping` - Health check endpoint (returns "pong")
+
+## Dependencies
+
+- **Plug & Cowboy**: Web server and HTTP request handling
+- **Jason**: JSON encoding/decoding (available for future use)
 
 ## Requirements
 
 - Elixir 1.14 or higher
 - Erlang/OTP 25 or higher
+- rebar3 (for compiling Erlang dependencies)
