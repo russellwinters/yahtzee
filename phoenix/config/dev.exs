@@ -7,7 +7,7 @@ config :phoenix, PhoenixWeb.Endpoint,
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "SECRET_KEY_BASE_FOR_DEV_ONLY",
+  secret_key_base: System.get_env("SECRET_KEY_BASE") || "dev_secret_key_base_that_is_at_least_64_bytes_long_for_development",
   watchers: []
 
 # Watch static and templates for browser reloading.

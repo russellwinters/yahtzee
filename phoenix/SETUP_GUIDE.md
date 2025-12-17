@@ -162,6 +162,32 @@ mix deps.get
 mix compile
 ```
 
+## Security Notes
+
+⚠️ **Important for Production**: The configuration files include placeholder secrets that MUST be changed before deploying to production.
+
+### Generating Secure Keys
+
+```bash
+# Generate a secret key base
+mix phx.gen.secret
+
+# Use the output for your environment variables
+export SECRET_KEY_BASE="generated_secret_here"
+export LIVEVIEW_SIGNING_SALT="another_generated_secret"
+export SESSION_SIGNING_SALT="yet_another_generated_secret"
+```
+
+### Production Checklist
+
+Before deploying:
+- ✅ Generate and set all secret environment variables
+- ✅ Enable HTTPS/TLS
+- ✅ Review CSRF protection settings
+- ✅ Configure proper session timeouts
+- ✅ Set up monitoring and logging
+- ✅ Review Phoenix security documentation
+
 ## Next Steps
 
 This is the initial scaffolding. Future development will include:

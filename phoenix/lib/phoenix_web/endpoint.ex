@@ -7,7 +7,7 @@ defmodule PhoenixWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_phoenix_key",
-    signing_salt: "SECRET_SIGNING_SALT"
+    signing_salt: System.get_env("SESSION_SIGNING_SALT") || "CHANGE_ME_IN_PRODUCTION_SECRET_SIGNING_SALT"
   ]
 
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]

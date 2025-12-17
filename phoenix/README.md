@@ -44,6 +44,8 @@ The project structure has been initialized with:
 2. Run `mix deps.get` to install them
 3. Start the server with `mix phx.server`
 
+⚠️ **Security Note:** Before deploying to production, ensure you generate proper secret keys and use environment variables. The current configuration includes placeholder secrets that should be changed.
+
 ## Development
 
 The application is structured as follows:
