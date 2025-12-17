@@ -1,0 +1,45 @@
+defmodule Phoenix.MixProject do
+  use Mix.Project
+
+  def project do
+    [
+      app: :phoenix,
+      version: "0.1.0",
+      elixir: "~> 1.14",
+      elixirc_paths: elixirc_paths(Mix.env()),
+      start_permanent: Mix.env() == :prod,
+      aliases: aliases(),
+      deps: deps()
+    ]
+  end
+
+  def application do
+    [
+      mod: {Phoenix.Application, []},
+      extra_applications: [:logger, :runtime_tools]
+    ]
+  end
+
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
+
+  defp deps do
+    [
+      # Note: Dependencies need to be installed with `mix deps.get`
+      # Due to network restrictions in this environment, dependencies
+      # are listed here but may need to be installed separately.
+      # {:phoenix, "~> 1.7.0"},
+      # {:phoenix_html, "~> 3.0"},
+      # {:phoenix_live_reload, "~> 1.2", only: :dev},
+      # {:phoenix_live_view, "~> 0.20.0"},
+      # {:plug_cowboy, "~> 2.0"},
+      # {:jason, "~> 1.2"}
+    ]
+  end
+
+  defp aliases do
+    [
+      setup: ["deps.get"]
+    ]
+  end
+end
