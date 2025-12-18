@@ -16,14 +16,11 @@ The application uses Plug and Cowboy for the web server infrastructure, providin
 To install dependencies and start the server:
 
 ```bash
-# Get dependencies
 mix deps.get
 
-# Compile the application
-MIX_REBAR3=~/.mix/rebar3 mix compile
+mix compile
 
-# Start the server
-MIX_REBAR3=~/.mix/rebar3 mix run --no-halt
+mix run --no-halt
 ```
 
 The application will be available at `http://localhost:4000`
@@ -48,4 +45,3 @@ The application will be available at `http://localhost:4000`
 
 - Elixir 1.14 or higher
 - Erlang/OTP 25 or higher
-- rebar3 (for compiling Erlang dependencies)
