@@ -1,31 +1,18 @@
-# Ytz - Yahtzee in Elixir
+# Ytz
 
-A minimal Yahtzee application built with Elixir and Phoenix.
+To start your Phoenix server:
 
-## Getting Started
+* Run `mix setup` to install and setup dependencies
+* Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
 
-To start the server:
+Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-```bash
-mix compile
-mix run --no-halt
-```
+Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
 
-The application will be available at `http://localhost:4000`
+## Learn more
 
-Note: This project has no external dependencies and uses only Elixir/Erlang built-in libraries.
-
-## Features
-
-- **Homepage**: Displays "Hello World" welcome message
-- **Ping/Pong**: Health check endpoint at `/ping` that returns "pong"
-
-## Endpoints
-
-- `GET /` - Homepage with Hello World
-- `GET /ping` - Health check endpoint (returns "pong")
-
-## Requirements
-
-- Elixir 1.14 or higher
-- Erlang/OTP 25 or higher
+* Official website: https://www.phoenixframework.org/
+* Guides: https://hexdocs.pm/phoenix/overview.html
+* Docs: https://hexdocs.pm/phoenix
+* Forum: https://elixirforum.com/c/phoenix-forum
+* Source: https://github.com/phoenixframework/phoenix

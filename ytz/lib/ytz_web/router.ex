@@ -1,96 +1,44 @@
 defmodule YtzWeb.Router do
-  def handle(%{method: "GET", path: "/"}) do
-    html = """
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <title>Yahtzee - Ytz</title>
-      <style>
-        body {
-          font-family: Arial, sans-serif;
-          max-width: 800px;
-          margin: 50px auto;
-          padding: 20px;
-          text-align: center;
-        }
-        h1 {
-          color: #4A5568;
-        }
-        button {
-          background-color: #4299E1;
-          color: white;
-          padding: 10px 20px;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-          font-size: 16px;
-          margin-top: 20px;
-        }
-        button:hover {
-          background-color: #3182CE;
-        }
-        #response {
-          margin-top: 20px;
-          padding: 10px;
-          border-radius: 5px;
-          min-height: 30px;
-        }
-        .success {
-          background-color: #C6F6D5;
-          color: #22543D;
-        }
-      </style>
-    </head>
-    <body>
-      <h1>Hello World</h1>
-      <p>Welcome to Yahtzee - Ytz Edition (Elixir)</p>
-      <button onclick="ping()">Ping</button>
-      <div id="response"></div>
-      
-      <script>
-        async function ping() {
-          try {
-            const response = await fetch('/ping');
-            const data = await response.text();
-            const responseDiv = document.getElementById('response');
-            responseDiv.textContent = data;
-            responseDiv.className = 'success';
-          } catch (error) {
-            const responseDiv = document.getElementById('response');
-            responseDiv.textContent = 'Error: ' + error.message;
-            responseDiv.className = '';
-          }
-        }
-      </script>
-    </body>
-    </html>
-    """
-    
-    http_response(200, "text/html", html)
+  use YtzWeb, :router
+
+  pipeline :browser do
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :fetch_live_flash
+    plug :put_root_layout, html: {YtzWeb.Layouts, :root}
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
   end
 
-  def handle(%{method: "GET", path: "/ping"}) do
-    http_response(200, "text/plain", "pong")
+  pipeline :api do
+    plug :accepts, ["json"]
   end
 
-  def handle(_request) do
-    http_response(404, "text/plain", "Not found")
+  scope "/", YtzWeb do
+    pipe_through :browser
+
+    get "/", PageController, :home
   end
 
-  defp http_response(status_code, content_type, body) do
-    status_text = case status_code do
-      200 -> "OK"
-      404 -> "Not Found"
-      _ -> "Unknown"
+  # Other scopes may use custom stacks.
+  # scope "/api", YtzWeb do
+  #   pipe_through :api
+  # end
+
+  # Enable LiveDashboard and Swoosh mailbox preview in development
+  if Application.compile_env(:ytz, :dev_routes) do
+    # If you want to use the LiveDashboard in production, you should put
+    # it behind authentication and allow only admins to access it.
+    # If your application does not have an admins-only section yet,
+    # you can use Plug.BasicAuth to set up some basic authentication
+    # as long as you are also using SSL (which you should anyway).
+    import Phoenix.LiveDashboard.Router
+
+    scope "/dev" do
+      pipe_through :browser
+
+      live_dashboard "/dashboard", metrics: YtzWeb.Telemetry
+      forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
-    
-    """
-    HTTP/1.1 #{status_code} #{status_text}\r
-    Content-Type: #{content_type}\r
-    Content-Length: #{byte_size(body)}\r
-    Connection: close\r
-    \r
-    #{body}
-    """
   end
 end
