@@ -2,10 +2,11 @@ import Config
 
 # Configure your database
 config :ytz, Ytz.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "local_dev",
+  password: "local_dev_password",
   hostname: "localhost",
-  database: "ytz_dev",
+  database: "ytz",
+  port: 5434,
   stacktrace: true,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10

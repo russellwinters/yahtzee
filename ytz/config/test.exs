@@ -6,10 +6,11 @@ import Config
 # to provide built-in test partitioning in CI environment.
 # Run `mix help test` for more information.
 config :ytz, Ytz.Repo,
-  username: "postgres",
-  password: "postgres",
+  username: "local_dev",
+  password: "local_dev_password",
   hostname: "localhost",
-  database: "ytz_test#{System.get_env("MIX_TEST_PARTITION")}",
+  database: "ytz",
+  port: 5434,
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: System.schedulers_online() * 2
 
