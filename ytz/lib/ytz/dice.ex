@@ -37,6 +37,11 @@ defmodule Ytz.Dice do
     List.update_at(dice, index, fn die -> Map.put(die, :frozen, true) end)
   end
 
+  # Add a list of indices to freeze multiple dice at once
+  # def freeze(dice, index) do
+  #   List.update_at(dice, index, fn die -> Map.put(die, :frozen, true) end)
+  # end
+
   def unfreeze(dice, index) do
     List.update_at(dice, index, fn die -> Map.put(die, :frozen, false) end)
   end
