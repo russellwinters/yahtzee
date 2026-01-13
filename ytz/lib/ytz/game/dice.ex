@@ -1,4 +1,4 @@
-defmodule Ytz.Dice do
+defmodule Ytz.Game.Dice do
   @moduledoc """
   TODO: implement module doc after implementation
   """

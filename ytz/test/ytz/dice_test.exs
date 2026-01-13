@@ -1,7 +1,7 @@
 defmodule Ytz.DiceTest do
   use ExUnit.Case, async: true
 
-  alias Ytz.Dice
+  alias Ytz.Game.Dice
 
   describe "new/0" do
     test "returns list of 5 dice" do
