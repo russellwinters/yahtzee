@@ -40,7 +40,7 @@ defmodule Ytz.Game.Scorecard do
     |> Enum.map(fn {category, _points} -> category end)
   end
 
-  # TODO: implement logic here, determining category can be score with dice
+  # TODO: implement logic here, with scoring module
   def available_categories(scorecard, dice) do
     scorecard
     |> Map.from_struct()
