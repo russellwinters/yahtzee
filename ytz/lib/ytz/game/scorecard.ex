@@ -1,4 +1,6 @@
 defmodule Ytz.Game.Scorecard do
+  alias Ytz.Game.{Dice, Scoring}
+
   defstruct ones: nil,
             twos: nil,
             threes: nil,
@@ -40,13 +42,17 @@ defmodule Ytz.Game.Scorecard do
     |> Enum.map(fn {category, _points} -> category end)
   end
 
-  # TODO: implement logic here, with scoring module
-  def available_categories(scorecard, dice) do
+  def available_categories(scorecard, %Dice{} = dice) do
     scorecard
     |> Map.from_struct()
     |> Enum.filter(fn {_category, points} -> points == nil end)
-    |> Enum.filter(fn {category, _points} -> valid_for_category?(dice, category) end)
+    |> Enum.filter(fn {category, _points} -> Scoring.valid_for_category?(dice, category) end)
     |> Enum.map(fn {category, _points} -> category end)
+  end
+
+  # TODO: add test
+  def available_categories(_scorecard, _dice) do
+    {:error, "Invalid dice provided"}
   end
 
   def score_category(_scorecard, _category, points) when points < 0 do
@@ -57,94 +63,46 @@ defmodule Ytz.Game.Scorecard do
     Map.put(scorecard, category, points)
   end
 
-  # def calculate_score(category, Dice) do
-  # def calculate_score(scorecard, category, Dice) do
+  # TODO: test this fn
+  def calculate_score(category, %Dice{} = dice) do
+    case category do
+      :ones -> Scoring.sum_dice_values(dice, 1)
+      :twos -> Scoring.sum_dice_values(dice, 2)
+      :threes -> Scoring.sum_dice_values(dice, 3)
+      :fours -> Scoring.sum_dice_values(dice, 4)
+      :fives -> Scoring.sum_dice_values(dice, 5)
+      :sixes -> Scoring.sum_dice_values(dice, 6)
+      :three_of_a_kind -> Scoring.calculate_three_of_a_kind(dice)
+      :four_of_a_kind -> Scoring.calculate_four_of_a_kind(dice)
+      :full_house -> Scoring.calculate_full_house(dice)
+      :small_straight -> Scoring.calculate_small_straight(dice)
+      :large_straight -> Scoring.calculate_large_straight(dice)
+      :yahtzee -> Scoring.calculate_yahtzee(dice)
+      :chance -> Scoring.sum_dice_values(dice, :all)
+      _ -> {:error, "Invalid category"}
+    end
+  end
+
+  def calculate_score(scorecard, category, %Dice{} = dice) do
+    scorecard
+    |> available_categories(dice)
+    |> case do
+      {:error, _} = error ->
+        error
+
+      available ->
+        if category in available do
+          calculate_score(category, dice)
+        else
+          {:error, "Category already filled or invalid for current dice"}
+        end
+    end
+  end
+
+  # TODO: implement catefory_filled?/2 and test so I can then use it to simplify calculate_score/3
   # def category_filled?(scorecard, category) do
   # def upper_total(scorecard) do
   # def upper_bonus(scorecard) do -> 35 or 0 based on upper total
   # def lower_total(scorecard) do
   # def total_score(scorecard) do
-
-  defp valid_for_category?(_dice, category)
-       when category in [:ones, :twos, :threes, :fours, :fives, :sixes, :chance] do
-    # TODO: implement validation logic for each category
-    # Basically for top and chance, it's always valid
-    # For others, need to check if dice meet the criteria
-    true
-  end
-
-  defp valid_for_category?(_dice, category)
-       when category in [:ones, :twos, :threes, :fours, :fives, :sixes, :chance] do
-    # TODO: implement validation logic for each category
-    # For others, need to check if dice meet the criteria
-    true
-  end
-
-  # TODO: pull validation logic from each of these utils into separate util
-  # TODO: pull all these utils into separate Scoring module
-
-  defp has_n_of_a_kind?(dice, n) do
-    values = Enum.map(dice, fn die -> die.value end)
-    counts = Enum.frequencies(values)
-    Enum.any?(counts, fn {_value, count} -> count >= n end)
-  end
-
-  defp calculate_three_of_a_kind(dice) do
-    if has_n_of_a_kind?(dice, 3) do
-      dice |> Enum.map(& &1.value) |> Enum.sum()
-    else
-      0
-    end
-  end
-
-  defp calculate_four_of_a_kind(dice) do
-    if has_n_of_a_kind?(dice, 4) do
-      dice |> Enum.map(& &1.value) |> Enum.sum()
-    else
-      0
-    end
-  end
-
-  defp calculate_full_house(dice) do
-    values = Enum.map(dice, fn die -> die.value end)
-    counts = Enum.frequencies(values) |> Map.values() |> Enum.sort()
-
-    if counts == [2, 3] do
-      25
-    else
-      0
-    end
-  end
-
-  defp calculate_small_straight(dice) do
-    values = Enum.map(dice, fn die -> die.value end) |> Enum.uniq() |> Enum.sort()
-    straights = [[1, 2, 3, 4], [2, 3, 4, 5], [3, 4, 5, 6]]
-
-    if Enum.any?(straights, fn straight -> Enum.all?(straight, &(&1 in values)) end) do
-      30
-    else
-      0
-    end
-  end
-
-  defp calculate_large_straight(dice) do
-    values = Enum.map(dice, fn die -> die.value end) |> Enum.uniq() |> Enum.sort()
-    straights = [[1, 2, 3, 4, 5], [2, 3, 4, 5, 6]]
-
-    if Enum.any?(straights, fn straight -> straight == values end) do
-      40
-    else
-      0
-    end
-  end
-
-  defp calculate_yahtzee(dice) do
-    values = Enum.map(dice, fn die -> die.value end)
-
-    if Enum.uniq(values) |> length() == 1 do
-      50
-    else
-      0
-    end
-  end
 end

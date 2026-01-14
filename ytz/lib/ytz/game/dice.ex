@@ -33,6 +33,8 @@ defmodule Ytz.Game.Dice do
     end)
   end
 
+  # TODO: function to extract_values, taking a Dice struct and returning a list of the values
+
   def freeze(dice, index) do
     List.update_at(dice, index, fn die -> Map.put(die, :frozen, true) end)
   end

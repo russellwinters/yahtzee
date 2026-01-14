@@ -12,6 +12,25 @@ defmodule Ytz.Game.Scoring do
   ]
   @dice_error {:error, "Dice struct must be passed"}
 
+  def sum_dice_values(%Dice{dice: dice_list}) do
+    dice_list
+    |> Enum.map(& &1.value)
+    |> Enum.sum()
+  end
+
+  def sum_dice_values(_), do: @dice_error
+
+  def sum_dice_values(%Dice{dice: dice_list}, match) when is_integer(match) do
+    dice_list
+    |> Enum.map(& &1.value)
+    |> Enum.filter(fn value -> value == match end)
+    |> Enum.sum()
+  end
+
+  def sum_dice_values(dice, _match) when not is_struct(dice, Dice), do: @dice_error
+
+  def sum_dice_values(_dice, _match), do: {:error, "Match must be an integer"}
+
   def calculate_three_of_a_kind(%Dice{dice: dice_list} = dice) do
     if valid_for_category?(dice, :three_of_a_kind) do
       dice_list |> Enum.map(& &1.value) |> Enum.sum()

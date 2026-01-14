@@ -1,10 +1,77 @@
 defmodule Ytz.ScoringTest do
   use ExUnit.Case, async: true
 
-  alias Ytz.Game.{Dice, Scorecard, Scoring}
+  alias Ytz.Game.{Dice, Scoring}
+
+  describe "sum_dice_values/1" do
+    test "returns sum of all dice values" do
+      dice = %Dice{
+        dice: [
+          %{value: 2, frozen: false},
+          %{value: 3, frozen: false},
+          %{value: 4, frozen: false},
+          %{value: 5, frozen: false},
+          %{value: 6, frozen: false}
+        ]
+      }
+
+      assert Scoring.sum_dice_values(dice) == 20
+    end
+
+    test "returns error when non-Dice struct provided" do
+      assert Scoring.sum_dice_values(:bad) == {:error, "Dice struct must be passed"}
+    end
+  end
+
+  describe "sum_dice_values/2" do
+    test "returns sum of dice matching the given value" do
+      dice = %Dice{
+        dice: [
+          %{value: 2, frozen: false},
+          %{value: 3, frozen: false},
+          %{value: 2, frozen: false},
+          %{value: 5, frozen: false},
+          %{value: 6, frozen: false}
+        ]
+      }
+
+      assert Scoring.sum_dice_values(dice, 2) == 4
+    end
+
+    test "returns 0 when no dice match the given value" do
+      dice = %Dice{
+        dice: [
+          %{value: 1, frozen: false},
+          %{value: 3, frozen: false},
+          %{value: 4, frozen: false},
+          %{value: 5, frozen: false},
+          %{value: 6, frozen: false}
+        ]
+      }
+
+      assert Scoring.sum_dice_values(dice, 2) == 0
+    end
+
+    test "returns error when non-Dice struct provided" do
+      assert Scoring.sum_dice_values(:bad, 2) == {:error, "Dice struct must be passed"}
+    end
+
+    test "returns error when int isnt provided for match" do
+      dice = %Dice{
+        dice: [
+          %{value: 1, frozen: false},
+          %{value: 3, frozen: false},
+          %{value: 4, frozen: false},
+          %{value: 5, frozen: false},
+          %{value: 6, frozen: false}
+        ]
+      }
+
+      assert Scoring.sum_dice_values(dice, :bad) == {:error, "Match must be an integer"}
+    end
+  end
 
   describe "calculate_three_of_a_kind/1" do
-    @tag :focus
     test "returns sum of dice when three of a kind present" do
       dice = %Dice{
         dice: [
