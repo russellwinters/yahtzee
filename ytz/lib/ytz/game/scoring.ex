@@ -1,5 +1,5 @@
 defmodule Ytz.Game.Scoring do
-  alias Ytz.Game.Dice
+  alias Ytz.Game.{Dice}
 
   @small_straights [
     [1, 2, 3, 4],
@@ -11,6 +11,29 @@ defmodule Ytz.Game.Scoring do
     [2, 3, 4, 5, 6]
   ]
   @dice_error {:error, "Dice struct must be passed"}
+
+  def calculate_score(category, %Dice{} = dice) do
+    case category do
+      :ones -> sum_dice_values(dice, 1)
+      :twos -> sum_dice_values(dice, 2)
+      :threes -> sum_dice_values(dice, 3)
+      :fours -> sum_dice_values(dice, 4)
+      :fives -> sum_dice_values(dice, 5)
+      :sixes -> sum_dice_values(dice, 6)
+      :three_of_a_kind -> calculate_three_of_a_kind(dice)
+      :four_of_a_kind -> calculate_four_of_a_kind(dice)
+      :full_house -> calculate_full_house(dice)
+      :small_straight -> calculate_small_straight(dice)
+      :large_straight -> calculate_large_straight(dice)
+      :yahtzee -> calculate_yahtzee(dice)
+      :chance -> sum_dice_values(dice)
+      _ -> {:error, "Invalid category"}
+    end
+  end
+
+  def calculate_score(_category, _dice) do
+    {:error, "Invalid dice provided"}
+  end
 
   def sum_dice_values(%Dice{dice: dice_list}) do
     dice_list
@@ -30,50 +53,6 @@ defmodule Ytz.Game.Scoring do
   def sum_dice_values(dice, _match) when not is_struct(dice, Dice), do: @dice_error
 
   def sum_dice_values(_dice, _match), do: {:error, "Match must be an integer"}
-
-  def calculate_three_of_a_kind(%Dice{dice: dice_list} = dice) do
-    if valid_for_category?(dice, :three_of_a_kind) do
-      dice_list |> Enum.map(& &1.value) |> Enum.sum()
-    else
-      0
-    end
-  end
-
-  def calculate_three_of_a_kind(_), do: @dice_error
-
-  def calculate_four_of_a_kind(%Dice{dice: dice_list} = dice) do
-    if valid_for_category?(dice, :four_of_a_kind) do
-      dice_list |> Enum.map(& &1.value) |> Enum.sum()
-    else
-      0
-    end
-  end
-
-  def calculate_four_of_a_kind(_), do: @dice_error
-
-  def calculate_full_house(%Dice{dice: _dice_list} = dice) do
-    if valid_for_category?(dice, :full_house), do: 25, else: 0
-  end
-
-  def calculate_full_house(_), do: @dice_error
-
-  def calculate_small_straight(%Dice{dice: _dice_list} = dice) do
-    if valid_for_category?(dice, :small_straight), do: 30, else: 0
-  end
-
-  def calculate_small_straight(_), do: @dice_error
-
-  def calculate_large_straight(%Dice{dice: _dice_list} = dice) do
-    if valid_for_category?(dice, :large_straight), do: 40, else: 0
-  end
-
-  def calculate_large_straight(_), do: @dice_error
-
-  def calculate_yahtzee(%Dice{dice: _dice_list} = dice) do
-    if valid_for_category?(dice, :yahtzee), do: 50, else: 0
-  end
-
-  def calculate_yahtzee(_), do: @dice_error
 
   def valid_for_category?(dice, _category) when not is_struct(dice, Dice) do
     @dice_error
@@ -118,6 +97,50 @@ defmodule Ytz.Game.Scoring do
   def valid_for_category?(_dice, category) do
     {:error, "Not a valid category #{inspect(category)}"}
   end
+
+  defp calculate_three_of_a_kind(%Dice{dice: dice_list} = dice) do
+    if valid_for_category?(dice, :three_of_a_kind) do
+      dice_list |> Enum.map(& &1.value) |> Enum.sum()
+    else
+      0
+    end
+  end
+
+  defp calculate_three_of_a_kind(_), do: @dice_error
+
+  defp calculate_four_of_a_kind(%Dice{dice: dice_list} = dice) do
+    if valid_for_category?(dice, :four_of_a_kind) do
+      dice_list |> Enum.map(& &1.value) |> Enum.sum()
+    else
+      0
+    end
+  end
+
+  defp calculate_four_of_a_kind(_), do: @dice_error
+
+  defp calculate_full_house(%Dice{dice: _dice_list} = dice) do
+    if valid_for_category?(dice, :full_house), do: 25, else: 0
+  end
+
+  defp calculate_full_house(_), do: @dice_error
+
+  defp calculate_small_straight(%Dice{dice: _dice_list} = dice) do
+    if valid_for_category?(dice, :small_straight), do: 30, else: 0
+  end
+
+  defp calculate_small_straight(_), do: @dice_error
+
+  defp calculate_large_straight(%Dice{dice: _dice_list} = dice) do
+    if valid_for_category?(dice, :large_straight), do: 40, else: 0
+  end
+
+  defp calculate_large_straight(_), do: @dice_error
+
+  defp calculate_yahtzee(%Dice{dice: _dice_list} = dice) do
+    if valid_for_category?(dice, :yahtzee), do: 50, else: 0
+  end
+
+  defp calculate_yahtzee(_), do: @dice_error
 
   defp has_n_of_a_kind?(%Dice{dice: dice_list}, n) do
     values = Enum.map(dice_list, fn die -> die.value end)

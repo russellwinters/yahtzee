@@ -1,7 +1,7 @@
 defmodule Ytz.ScorecardTest do
   use ExUnit.Case, async: true
 
-  alias Ytz.Game.{Dice, Scorecard, Scoring}
+  alias Ytz.Game.{Dice, Scorecard}
 
   describe "new/0" do
     test "returns a new scorecard with all categories nil" do
@@ -165,82 +165,6 @@ defmodule Ytz.ScorecardTest do
     test "returns error tuple with message for invalid scorecard" do
       scorecard = :invalid_scorecard |> Scorecard.upsert_score(:ones, 5)
       assert scorecard == {:error, "Invalid scorecard provided"}
-    end
-  end
-
-  # TODO: move tests to the scoring module test suite after moving implementation over there
-  describe "calculate_score/2" do
-    test "returns error tuple when given invalid dice" do
-      result = Scorecard.calculate_score(:ones, :invalid_dice)
-      assert result == {:error, "Invalid dice provided"}
-    end
-
-    test "returns error tuple when given invalid category" do
-      init_dice = %Dice{
-        dice: [
-          %{value: 1, frozen: false},
-          %{value: 1, frozen: false},
-          %{value: 1, frozen: false},
-          %{value: 1, frozen: false},
-          %{value: 1, frozen: false}
-        ]
-      }
-
-      result = Scorecard.calculate_score(:invalid_category, init_dice)
-      assert result == {:error, "Invalid category"}
-    end
-
-    test "match statement returns value from appropriate scoring module function" do
-      init_dice = %Dice{
-        dice: [
-          %{value: 1, frozen: false},
-          %{value: 1, frozen: false},
-          %{value: 1, frozen: false},
-          %{value: 1, frozen: false},
-          %{value: 1, frozen: false}
-        ]
-      }
-
-      large_straight_dice = %Dice{
-        dice: [
-          %{value: 2, frozen: false},
-          %{value: 3, frozen: false},
-          %{value: 4, frozen: false},
-          %{value: 5, frozen: false},
-          %{value: 6, frozen: false}
-        ]
-      }
-
-      full_house_dice = %Dice{
-        dice: [
-          %{value: 2, frozen: false},
-          %{value: 2, frozen: false},
-          %{value: 3, frozen: false},
-          %{value: 3, frozen: false},
-          %{value: 3, frozen: false}
-        ]
-      }
-
-      assert Scorecard.calculate_score(:three_of_a_kind, init_dice) ==
-               Scoring.calculate_three_of_a_kind(init_dice)
-
-      assert Scorecard.calculate_score(:four_of_a_kind, init_dice) ==
-               Scoring.calculate_four_of_a_kind(init_dice)
-
-      assert Scorecard.calculate_score(:full_house, full_house_dice) ==
-               Scoring.calculate_full_house(full_house_dice)
-
-      assert Scorecard.calculate_score(:small_straight, full_house_dice) ==
-               Scoring.calculate_small_straight(full_house_dice)
-
-      assert Scorecard.calculate_score(:large_straight, large_straight_dice) ==
-               Scoring.calculate_large_straight(large_straight_dice)
-
-      assert Scorecard.calculate_score(:yahtzee, init_dice) ==
-               Scoring.calculate_yahtzee(init_dice)
-
-      assert Scorecard.calculate_score(:chance, full_house_dice) ==
-               Scoring.sum_dice_values(full_house_dice)
     end
   end
 end

@@ -107,30 +107,6 @@ defmodule Ytz.Game.Scorecard do
     Map.put(scorecard, category, points)
   end
 
-  # TODO: move this function to the scoring module
-  def calculate_score(category, %Dice{} = dice) do
-    case category do
-      :ones -> Scoring.sum_dice_values(dice, 1)
-      :twos -> Scoring.sum_dice_values(dice, 2)
-      :threes -> Scoring.sum_dice_values(dice, 3)
-      :fours -> Scoring.sum_dice_values(dice, 4)
-      :fives -> Scoring.sum_dice_values(dice, 5)
-      :sixes -> Scoring.sum_dice_values(dice, 6)
-      :three_of_a_kind -> Scoring.calculate_three_of_a_kind(dice)
-      :four_of_a_kind -> Scoring.calculate_four_of_a_kind(dice)
-      :full_house -> Scoring.calculate_full_house(dice)
-      :small_straight -> Scoring.calculate_small_straight(dice)
-      :large_straight -> Scoring.calculate_large_straight(dice)
-      :yahtzee -> Scoring.calculate_yahtzee(dice)
-      :chance -> Scoring.sum_dice_values(dice)
-      _ -> {:error, "Invalid category"}
-    end
-  end
-
-  def calculate_score(_category, _dice) do
-    {:error, "Invalid dice provided"}
-  end
-
   def calculate_score(scorecard, category, %Dice{} = dice) do
     scorecard
     |> available_categories(dice)
@@ -140,7 +116,7 @@ defmodule Ytz.Game.Scorecard do
 
       available ->
         if category in available do
-          calculate_score(category, dice)
+          Scoring.calculate_score(category, dice)
         else
           {:error, "Category already filled or invalid for current dice"}
         end
