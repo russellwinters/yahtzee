@@ -50,7 +50,6 @@ defmodule Ytz.Game.Scorecard do
     |> Enum.map(fn {category, _points} -> category end)
   end
 
-  # TODO: add test
   def available_categories(_scorecard, _dice) do
     {:error, "Invalid dice provided"}
   end
@@ -63,7 +62,7 @@ defmodule Ytz.Game.Scorecard do
     Map.put(scorecard, category, points)
   end
 
-  # TODO: test this fn
+  # TODO: move this function to the scoring module
   def calculate_score(category, %Dice{} = dice) do
     case category do
       :ones -> Scoring.sum_dice_values(dice, 1)
@@ -78,9 +77,13 @@ defmodule Ytz.Game.Scorecard do
       :small_straight -> Scoring.calculate_small_straight(dice)
       :large_straight -> Scoring.calculate_large_straight(dice)
       :yahtzee -> Scoring.calculate_yahtzee(dice)
-      :chance -> Scoring.sum_dice_values(dice, :all)
+      :chance -> Scoring.sum_dice_values(dice)
       _ -> {:error, "Invalid category"}
     end
+  end
+
+  def calculate_score(_category, _dice) do
+    {:error, "Invalid dice provided"}
   end
 
   def calculate_score(scorecard, category, %Dice{} = dice) do
