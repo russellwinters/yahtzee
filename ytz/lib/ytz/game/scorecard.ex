@@ -31,18 +31,44 @@ defmodule Ytz.Game.Scorecard do
           chance: non_neg_integer() | nil
         }
 
+  @categories [
+    :ones,
+    :twos,
+    :threes,
+    :fours,
+    :fives,
+    :sixes,
+    :three_of_a_kind,
+    :four_of_a_kind,
+    :full_house,
+    :small_straight,
+    :large_straight,
+    :yahtzee,
+    :chance
+  ]
+
+  @typedoc "A valid scorecard category (keys of the scorecard struct)"
+  @type category :: atom()
+
+  defguard valid_category?(category)
+           when is_atom(category) and category in @categories
+
   def new do
     %__MODULE__{}
   end
 
-  def available_categories(scorecard) do
+  def available_categories(%__MODULE__{} = scorecard) do
     scorecard
     |> Map.from_struct()
     |> Enum.filter(fn {_category, points} -> points == nil end)
     |> Enum.map(fn {category, _points} -> category end)
   end
 
-  def available_categories(scorecard, %Dice{} = dice) do
+  def available_categories(_scorecard) do
+    {:error, "Invalid scorecard provided"}
+  end
+
+  def available_categories(%__MODULE__{} = scorecard, %Dice{} = dice) do
     scorecard
     |> Map.from_struct()
     |> Enum.filter(fn {_category, points} -> points == nil end)
@@ -50,15 +76,34 @@ defmodule Ytz.Game.Scorecard do
     |> Enum.map(fn {category, _points} -> category end)
   end
 
-  def available_categories(_scorecard, _dice) do
+  def available_categories(_scorecard, %Dice{} = _dice) do
+    {:error, "Invalid scorecard provided"}
+  end
+
+  def available_categories(%__MODULE__{} = _scorecard, _dice) do
     {:error, "Invalid dice provided"}
   end
 
-  def score_category(_scorecard, _category, points) when points < 0 do
+  def available_categories(_scorecard, _dice) do
+    {:error, "Invalid scorecard and dice provided"}
+  end
+
+  def categories, do: @categories
+
+  def upsert_score(scorecard, _category, _points) when not is_struct(scorecard, __MODULE__) do
+    {:error, "Invalid scorecard provided"}
+  end
+
+  def upsert_score(%__MODULE__{} = _scorecard, category, _points)
+      when not valid_category?(category) do
+    {:error, "Invalid category"}
+  end
+
+  def upsert_score(_scorecard, _category, points) when points < 0 do
     {:error, "Points cannot be negative"}
   end
 
-  def score_category(scorecard, category, points) do
+  def upsert_score(%__MODULE__{} = scorecard, category, points) when valid_category?(category) do
     Map.put(scorecard, category, points)
   end
 
