@@ -3,7 +3,7 @@
 
 This file summarizes outstanding TODOs discovered in the `Ytz.Game` modules (`dice.ex`, `scorecard.ex`, `scoring.ex`). Use these as a prioritized checklist when implementing features and tests.
 
-- Implement guard for categories, using that through scorecard, scoring, and if need be the dice module
+- Implement `Scorecard.calculate_score/3`, considering what that should really be called.
 
 - Add module documentation (`@moduledoc`) for `Ytz.Game.Dice` after implementation.
 

@@ -88,6 +88,23 @@ defmodule Ytz.Game.Scorecard do
     {:error, "Invalid scorecard and dice provided"}
   end
 
+  # TODO: consider this function. What do we really want here... maybe this is really score_category/3
+  def calculate_score(scorecard, category, %Dice{} = dice) do
+    scorecard
+    |> available_categories(dice)
+    |> case do
+      {:error, _} = error ->
+        error
+
+      available ->
+        if category in available do
+          Scoring.calculate_score(category, dice)
+        else
+          {:error, "Category already filled or invalid for current dice"}
+        end
+    end
+  end
+
   def categories, do: @categories
 
   def upsert_score(scorecard, _category, _points) when not is_struct(scorecard, __MODULE__) do
@@ -105,22 +122,6 @@ defmodule Ytz.Game.Scorecard do
 
   def upsert_score(%__MODULE__{} = scorecard, category, points) when valid_category?(category) do
     Map.put(scorecard, category, points)
-  end
-
-  def calculate_score(scorecard, category, %Dice{} = dice) do
-    scorecard
-    |> available_categories(dice)
-    |> case do
-      {:error, _} = error ->
-        error
-
-      available ->
-        if category in available do
-          Scoring.calculate_score(category, dice)
-        else
-          {:error, "Category already filled or invalid for current dice"}
-        end
-    end
   end
 
   # TODO: implement catefory_filled?/2 and test so I can then use it to simplify calculate_score/3
