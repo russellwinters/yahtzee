@@ -11,13 +11,6 @@ defmodule Ytz.Game.Dice do
               %{value: 1, frozen: false}
             ]
 
-  # TODO: Consider if we should have anyther type that is more central, or if we need a handlers in Dice to
-  # Better convert and manipulate the dice themselves. I want
-  # To think like I'm interacting with an array of die, but
-  # from what I've seen we can't actually make the struct an array
-  # So we kind of need to have the dice field be the array, and then
-  # have functions that manipulate that field directly
-
   @type die :: %{
           value: integer(),
           frozen: boolean()
@@ -75,7 +68,7 @@ defmodule Ytz.Game.Dice do
     {:error, "Invalid target"}
   end
 
-  def unfreeze(dice, index) do
+  def unfreeze(%__MODULE__{} = dice, index) when is_integer(index) do
     dice
     |> Map.put(
       :dice,
@@ -83,20 +76,48 @@ defmodule Ytz.Game.Dice do
     )
   end
 
-  def unfreeze_all(dice) do
+  def unfreeze(dice, _index) when not is_struct(dice, __MODULE__) do
+    {:error, "Invalid dice provided"}
+  end
+
+  def unfreeze(_dice, _index) do
+    {:error, "Invalid index provided: must be int"}
+  end
+
+  def unfreeze_all(%__MODULE__{} = dice) do
     dice |> Map.put(:dice, Enum.map(dice.dice, fn die -> Map.put(die, :frozen, false) end))
   end
 
-  def values(dice) do
+  def unfreeze_all(_dice) do
+    {:error, "Invalid dice provided"}
+  end
+
+  def values(%__MODULE__{} = dice) do
     dice.dice
     |> Enum.map(fn die -> die.value end)
   end
 
-  def get_die(dice, index) do
+  def values(_dice) do
+    {:error, "Invalid dice provided"}
+  end
+
+  def get_die(%__MODULE__{} = dice, index) when is_integer(index) do
     dice.dice |> Enum.at(index)
   end
 
-  def all_frozen?(dice) do
+  def get_die(dice, _index) when not is_struct(dice, __MODULE__) do
+    {:error, "Invalid dice provided"}
+  end
+
+  def get_die(_dice, _index) do
+    {:error, "Invalid index provided: must be int"}
+  end
+
+  def all_frozen?(%__MODULE__{} = dice) do
     dice.dice |> Enum.all?(fn die -> die.frozen == true end)
+  end
+
+  def all_frozen?(_dice) do
+    {:error, "Invalid dice provided"}
   end
 end

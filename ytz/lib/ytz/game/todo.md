@@ -3,8 +3,6 @@
 
 This file summarizes outstanding TODOs discovered in the `Ytz.Game` modules (`dice.ex`, `scorecard.ex`, `scoring.ex`). Use these as a prioritized checklist when implementing features and tests.
 
-- Update all functions on dice module to use the struct, then update tests to include checks for the input types
-
 - Add module documentation (`@moduledoc`) for `Ytz.Game.Dice` after implementation.
 
 - Implement `Scorecard.category_filled?/2` and corresponding tests; use this helper to simplify `calculate_score/3` logic.

@@ -78,6 +78,16 @@ defmodule Ytz.DiceTest do
         end
       end
     end
+
+    test "returns error tuple when given invalid dice" do
+      result = Dice.freeze(:invalid_dice, 0)
+      assert result == {:error, "Invalid dice provided"}
+    end
+
+    test "returns error tuple when given invalid target" do
+      result = Dice.new() |> Dice.freeze(:invalid_index)
+      assert result == {:error, "Invalid target"}
+    end
   end
 
   describe "unfreeze/2" do
@@ -107,6 +117,16 @@ defmodule Ytz.DiceTest do
         end
       end
     end
+
+    test "returns error tuple when given invalid dice" do
+      result = Dice.unfreeze(:invalid_dice, 0)
+      assert result == {:error, "Invalid dice provided"}
+    end
+
+    test "returns error tuple when given invalid index" do
+      result = Dice.unfreeze(Dice.new(), :invalid_index)
+      assert result == {:error, "Invalid index provided: must be int"}
+    end
   end
 
   describe "unfreeze_all/1" do
@@ -122,6 +142,11 @@ defmodule Ytz.DiceTest do
       unfrozen_dice = Dice.unfreeze_all(dice)
 
       assert Enum.all?(unfrozen_dice.dice, fn die -> die.frozen == false end)
+    end
+
+    test "returns error tuple when given invalid dice" do
+      result = Dice.unfreeze_all(:invalid_dice)
+      assert result == {:error, "Invalid dice provided"}
     end
   end
 
@@ -146,6 +171,11 @@ defmodule Ytz.DiceTest do
 
       assert length(values) == 5
     end
+
+    test "returns error tuple when given invalid dice" do
+      result = Dice.values(:invalid_dice)
+      assert result == {:error, "Invalid dice provided"}
+    end
   end
 
   describe "get_die/2" do
@@ -160,8 +190,19 @@ defmodule Ytz.DiceTest do
                frozen: true
              }
     end
+
+    test "returns error tuple when given invalid dice" do
+      result = Dice.get_die(:invalid_dice, 0)
+      assert result == {:error, "Invalid dice provided"}
+    end
+
+    test "returns error tuple when given invalid index" do
+      result = Dice.get_die(Dice.new(), :invalid_index)
+      assert result == {:error, "Invalid index provided: must be int"}
+    end
   end
 
+  # TODO add tests for pattern match validations
   describe "all_frozen?/1" do
     test "returns true if all dice are frozen" do
       dice =
@@ -183,6 +224,11 @@ defmodule Ytz.DiceTest do
         |> Dice.freeze(2)
 
       assert Dice.all_frozen?(dice) == false
+    end
+
+    test "returns error tuple when given invalid dice" do
+      result = Dice.all_frozen?(:invalid_dice)
+      assert result == {:error, "Invalid dice provided"}
     end
   end
 end
