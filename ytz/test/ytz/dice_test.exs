@@ -153,7 +153,7 @@ defmodule Ytz.DiceTest do
       target = 2
       dice = Dice.new() |> Dice.freeze(target) |> Dice.roll()
 
-      die = Enum.at(dice, target)
+      die = Enum.at(dice.dice, target)
 
       assert die == %{
                value: 1,

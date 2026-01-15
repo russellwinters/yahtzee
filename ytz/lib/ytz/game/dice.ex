@@ -93,10 +93,10 @@ defmodule Ytz.Game.Dice do
   end
 
   def get_die(dice, index) do
-    Enum.at(dice, index)
+    dice.dice |> Enum.at(index)
   end
 
   def all_frozen?(dice) do
-    Enum.all?(dice, fn die -> die.frozen == true end)
+    dice.dice |> Enum.all?(fn die -> die.frozen == true end)
   end
 end
