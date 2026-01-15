@@ -404,7 +404,7 @@ defmodule Ytz.ScoringTest do
     end
   end
 
-  describe "error handling" do
+  describe "calculation error handling" do
     test "calculate functions return dice error when non-`Dice` provided" do
       dice_error = {:error, "Dice struct must be passed"}
 

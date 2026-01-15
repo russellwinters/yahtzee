@@ -202,7 +202,6 @@ defmodule Ytz.DiceTest do
     end
   end
 
-  # TODO add tests for pattern match validations
   describe "all_frozen?/1" do
     test "returns true if all dice are frozen" do
       dice =
