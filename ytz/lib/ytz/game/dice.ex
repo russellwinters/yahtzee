@@ -30,17 +30,22 @@ defmodule Ytz.Game.Dice do
     %__MODULE__{}
   end
 
-  def roll(dice) do
-    Enum.map(dice, fn die ->
-      if die.frozen do
-        die
-      else
-        Map.put(die, :value, :rand.uniform(6))
-      end
-    end)
+  def roll(%__MODULE__{} = dice) do
+    updated =
+      Enum.map(dice.dice, fn die ->
+        if die.frozen do
+          die
+        else
+          Map.put(die, :value, :rand.uniform(6))
+        end
+      end)
+
+    %__MODULE__{dice: updated}
   end
 
-  # TODO: function to extract_values, taking a Dice struct and returning a list of the values
+  def roll(dice) when not is_struct(dice, __MODULE__) do
+    {:error, "Invalid dice provided"}
+  end
 
   def freeze(%__MODULE__{} = dice, target) when is_integer(target) do
     updated_list = List.update_at(dice.dice, target, fn die -> Map.put(die, :frozen, true) end)
@@ -71,15 +76,20 @@ defmodule Ytz.Game.Dice do
   end
 
   def unfreeze(dice, index) do
-    List.update_at(dice, index, fn die -> Map.put(die, :frozen, false) end)
+    dice
+    |> Map.put(
+      :dice,
+      List.update_at(dice.dice, index, fn die -> Map.put(die, :frozen, false) end)
+    )
   end
 
   def unfreeze_all(dice) do
-    Enum.map(dice, fn die -> Map.put(die, :frozen, false) end)
+    dice |> Map.put(:dice, Enum.map(dice.dice, fn die -> Map.put(die, :frozen, false) end))
   end
 
   def values(dice) do
-    Enum.map(dice, fn die -> die.value end)
+    dice.dice
+    |> Enum.map(fn die -> die.value end)
   end
 
   def get_die(dice, index) do

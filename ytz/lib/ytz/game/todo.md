@@ -3,9 +3,7 @@
 
 This file summarizes outstanding TODOs discovered in the `Ytz.Game` modules (`dice.ex`, `scorecard.ex`, `scoring.ex`). Use these as a prioritized checklist when implementing features and tests.
 
-- Add `extract_values/1` in `Ytz.Game.Dice`: implement a function that accepts a `Dice` struct (or the dice list) and returns a plain list of integer values for the five dice.
-
-- Add an overloaded `freeze/2` in `Ytz.Game.Dice` that accepts a list of indices and freezes multiple dice at once (in addition to the existing single-index version).
+- Finish updating broken tests on dice module
 
 - Add module documentation (`@moduledoc`) for `Ytz.Game.Dice` after implementation.
 

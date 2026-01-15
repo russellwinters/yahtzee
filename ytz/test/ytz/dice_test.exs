@@ -23,7 +23,7 @@ defmodule Ytz.DiceTest do
       rolled_dice = Dice.roll(dice)
 
       for index <- 0..4 do
-        die = Enum.at(rolled_dice, index)
+        die = Enum.at(rolled_dice.dice, index)
 
         if index in [0, 2, 4] do
           assert die.frozen == true
@@ -34,10 +34,14 @@ defmodule Ytz.DiceTest do
         end
       end
     end
+
+    test "returns error tuple when given invalid dice" do
+      result = Dice.roll(:invalid_dice)
+      assert result == {:error, "Invalid dice provided"}
+    end
   end
 
   describe "freeze/2" do
-    @tag :focus
     test "freezes the specified die" do
       dice = Dice.new()
       target_index = 2
@@ -47,7 +51,6 @@ defmodule Ytz.DiceTest do
       assert Enum.at(updated_dice.dice, target_index).frozen == true
     end
 
-    @tag :focus
     test "only freezes the specified die" do
       dice = Dice.new()
       target_index = 1
@@ -61,7 +64,6 @@ defmodule Ytz.DiceTest do
       end
     end
 
-    @tag :focus
     test "freezes multiple dice when given a list of indices" do
       dice = Dice.new()
       target_indices = [0, 2, 4]
@@ -83,7 +85,7 @@ defmodule Ytz.DiceTest do
       target_index = 3
       dice = Dice.new() |> Dice.freeze(target_index) |> Dice.unfreeze(target_index)
 
-      assert Enum.all?(dice, fn die -> die.frozen == false end)
+      assert Enum.all?(dice.dice, fn die -> die.frozen == false end)
     end
 
     test "only unfreezes the specified die" do
@@ -101,7 +103,7 @@ defmodule Ytz.DiceTest do
 
       for index <- 0..4 do
         if index != target_index do
-          assert Enum.at(updated_dice, index).frozen == true
+          assert Enum.at(updated_dice.dice, index).frozen == true
         end
       end
     end
@@ -119,21 +121,19 @@ defmodule Ytz.DiceTest do
 
       unfrozen_dice = Dice.unfreeze_all(dice)
 
-      assert Enum.all?(unfrozen_dice, fn die -> die.frozen == false end)
+      assert Enum.all?(unfrozen_dice.dice, fn die -> die.frozen == false end)
     end
   end
 
   describe "values/1" do
     test "returns list of die values" do
-      dice = Dice.new()
-      values = Enum.map(dice, fn die -> die.value end)
+      values = Dice.new() |> Dice.values()
 
       assert values == [1, 1, 1, 1, 1]
     end
 
     test "alwasys returns values on a die" do
-      dice = Dice.new() |> Dice.roll()
-      values = Dice.values(dice)
+      values = Dice.new() |> Dice.roll() |> Dice.values()
 
       for value <- values do
         assert is_integer(value)
@@ -142,9 +142,7 @@ defmodule Ytz.DiceTest do
     end
 
     test "always returns a list of exactly 5 values" do
-      dice = Dice.new() |> Dice.roll()
-
-      values = Dice.values(dice)
+      values = Dice.new() |> Dice.roll() |> Dice.values()
 
       assert length(values) == 5
     end
