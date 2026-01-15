@@ -11,6 +11,13 @@ defmodule Ytz.Game.Dice do
               %{value: 1, frozen: false}
             ]
 
+  # TODO: Consider if we should have anyther type that is more central, or if we need a handlers in Dice to
+  # Better convert and manipulate the dice themselves. I want
+  # To think like I'm interacting with an array of die, but
+  # from what I've seen we can't actually make the struct an array
+  # So we kind of need to have the dice field be the array, and then
+  # have functions that manipulate that field directly
+
   @type die :: %{
           value: integer(),
           frozen: boolean()
@@ -20,7 +27,7 @@ defmodule Ytz.Game.Dice do
         }
 
   def new do
-    %__MODULE__{}.dice
+    %__MODULE__{}
   end
 
   def roll(dice) do
@@ -35,12 +42,33 @@ defmodule Ytz.Game.Dice do
 
   # TODO: function to extract_values, taking a Dice struct and returning a list of the values
 
-  def freeze(dice, index) do
-    List.update_at(dice, index, fn die -> Map.put(die, :frozen, true) end)
+  def freeze(%__MODULE__{} = dice, target) when is_integer(target) do
+    updated_list = List.update_at(dice.dice, target, fn die -> Map.put(die, :frozen, true) end)
+    %__MODULE__{dice: updated_list}
   end
 
-  # TODO: add another definition for freeze
-  # That takes a list of indices to freeze multiple dice at once
+  def freeze(%__MODULE__{} = dice, target) when is_list(target) do
+    targets = MapSet.new(target)
+
+    updated_list =
+      Enum.reduce(0..4, dice.dice, fn index, acc ->
+        if MapSet.member?(targets, index) do
+          List.update_at(acc, index, fn die -> Map.put(die, :frozen, true) end)
+        else
+          acc
+        end
+      end)
+
+    %__MODULE__{dice: updated_list}
+  end
+
+  def freeze(dice, _target) when not is_struct(dice, __MODULE__) do
+    {:error, "Invalid dice provided"}
+  end
+
+  def freeze(_dice, _target) do
+    {:error, "Invalid target"}
+  end
 
   def unfreeze(dice, index) do
     List.update_at(dice, index, fn die -> Map.put(die, :frozen, false) end)

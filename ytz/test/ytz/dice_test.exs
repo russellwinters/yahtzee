@@ -7,8 +7,8 @@ defmodule Ytz.DiceTest do
     test "returns list of 5 dice" do
       dice = Dice.new()
 
-      assert is_list(dice)
-      assert length(dice) == 5
+      assert is_struct(dice, Dice)
+      assert length(dice.dice) == 5
     end
   end
 
@@ -37,15 +37,17 @@ defmodule Ytz.DiceTest do
   end
 
   describe "freeze/2" do
+    @tag :focus
     test "freezes the specified die" do
       dice = Dice.new()
       target_index = 2
 
       updated_dice = Dice.freeze(dice, target_index)
 
-      assert Enum.at(updated_dice, target_index).frozen == true
+      assert Enum.at(updated_dice.dice, target_index).frozen == true
     end
 
+    @tag :focus
     test "only freezes the specified die" do
       dice = Dice.new()
       target_index = 1
@@ -54,7 +56,23 @@ defmodule Ytz.DiceTest do
 
       for index <- 0..4 do
         if index != target_index do
-          assert Enum.at(updated_dice, index).frozen == false
+          assert Enum.at(updated_dice.dice, index).frozen == false
+        end
+      end
+    end
+
+    @tag :focus
+    test "freezes multiple dice when given a list of indices" do
+      dice = Dice.new()
+      target_indices = [0, 2, 4]
+
+      updated_dice = Dice.freeze(dice, target_indices)
+
+      for index <- 0..4 do
+        if index in target_indices do
+          assert Enum.at(updated_dice.dice, index).frozen == true
+        else
+          assert Enum.at(updated_dice.dice, index).frozen == false
         end
       end
     end
